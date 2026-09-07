@@ -1,0 +1,92 @@
+name: 실습 실행 점검
+
+on:
+  schedule:
+    # 매월 1일 09:00 KST (= 전날 00:00 UTC)
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+  push:
+    paths:
+      - "notebooks/**"
+      - "notebooks.yml"
+      - "checks/verify_results.py"
+      - "requirements-notebooks.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"        # Colab 런타임에 맞춘다
+
+      - name: 의존성 설치
+        run: |
+          pip install -r requirements-notebooks.txt
+          pip install pyyaml nbconvert ipykernel
+
+      - name: 라이브러리 버전 기록
+        run: |
+          {
+            echo "## 실행 환경"
+            echo '```'
+            pip list 2>/dev/null | grep -Ei 'tensorflow|keras|numpy|torch|scikit|pandas' || true
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 노트북 실행
+        continue-on-error: true          # 한 개가 죽어도 나머지는 돌린다
+        run: |
+          mkdir -p build/executed
+          python - <<'PY'
+          import subprocess, sys, yaml
+          from pathlib import Path
+          cfg = yaml.safe_load(Path("notebooks.yml").read_text(encoding="utf-8"))
+          timeout = str(cfg.get("meta", {}).get("timeout_per_notebook", 1800))
+          for spec in cfg["notebooks"]:
+              if not spec.get("ci"):
+                  print(f"건너뜀 (CI 대상 아님): {spec['file']}"); continue
+              src = Path(spec["file"])
+              if not src.exists():
+                  print(f"::warning::노트북 사본이 없습니다: {src}"); continue
+              print(f"실행: {src}")
+              subprocess.run([
+                  sys.executable, "-m", "nbconvert", "--to", "notebook", "--execute",
+                  "--allow-errors",           # 오류도 출력에 남겨 검증 단계에서 읽는다
+                  f"--ExecutePreprocessor.timeout={timeout}",
+                  "--output-dir", "build/executed",
+                  "--output", src.stem, str(src),
+              ], check=False)
+          PY
+
+      - name: 결과 검증
+        id: verify
+        continue-on-error: true
+        run: python checks/verify_results.py
+
+      - name: 결과 커밋
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "실행 점검 결과 갱신 ($(date +%F))"
+          git push
+
+      - name: 실행된 노트북 보관
+        uses: actions/upload-artifact@v4
+        with:
+          name: executed-notebooks
+          path: build/executed/
+          retention-days: 90
+
+      - name: 이상이 있으면 실패 처리
+        if: steps.verify.outcome == 'failure'
+        run: |
+          echo "::error::실습 결과가 기대 범위를 벗어났습니다. 85쪽이라면 판정 방향이 반대라는 점을 먼저 확인하세요."
+          exit 1
