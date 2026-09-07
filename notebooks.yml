@@ -1,0 +1,103 @@
+# ─────────────────────────────────────────────────────────────
+# 실행 점검 · 결과 검증 대상 (§5-B, §5-C)
+#
+# ⚠ 동기화 규칙
+#   notebooks/ 아래의 .ipynb 는 구글 드라이브 원본의 사본이다.
+#   드라이브 원본을 고치면 이 사본도 반드시 함께 고친다.
+#   이 규칙이 깨지면 점검 도구가 독자가 실제로 여는 것과 다른
+#   코드를 검사하게 되어, 통과해도 아무 의미가 없어진다.
+#
+# ⚠ 검증 셀을 노트북 안에 넣지 말 것
+#   검증은 실행이 끝난 .ipynb 의 출력을 checks/verify_results.py 가
+#   바깥에서 읽어 판정한다. 사본을 드라이브 원본과 바이트 단위로
+#   같게 유지하기 위해서다.
+# ─────────────────────────────────────────────────────────────
+
+meta:
+  timeout_per_notebook: 1800   # 초
+
+notebooks:
+
+  - id: practice-060
+    page: 60
+    title: 사괏값 예측 실습
+    file: notebooks/060_apple_price.ipynb
+    ci: true
+    checks:
+      - name: 학습 수렴
+        # 마지막으로 출력된 cost 값
+        extract: {pattern: 'cost[^0-9\-]*([0-9.eE+\-]+)', take: last}
+        assert: {lt: 0.001}
+        on_fail: 학습이 수렴하지 않았습니다. 옵티마이저 기본값 변경을 의심할 것.
+      - name: 가중치 수렴
+        extract: {pattern: '(?:weight|W)[^0-9\-]*([0-9.eE+\-]+)', take: last}
+        assert: {near: 1.0, tol: 0.02}
+        on_fail: 가중치가 1.0 부근으로 수렴하지 않았습니다.
+
+  - id: practice-073
+    page: 73
+    title: MNIST — 기초
+    file: notebooks/073_mnist_basic.ipynb
+    ci: true
+    checks:
+      - name: 최종 정확도
+        extract: {pattern: 'accuracy[^0-9]*([0-9.]+)', take: last}
+        assert: {gt: 0.90}
+        on_fail: 학습에 실패했습니다.
+
+  # ══════════════════════════════════════════════════════════
+  # ⚠⚠ 85쪽만 판정 방향이 반대다. 아래를 고치기 전에 반드시 읽을 것.
+  #
+  # 이 예제는 "천 번을 학습시켜도 cost가 줄지 않고 답도 계속
+  # 틀린다"는 실패를 보여주는 실습이다. 퍼셉트론의 한계를 증명하고
+  # 다층 퍼셉트론으로 넘어가는 논리의 근거다.
+  #
+  # 라이브러리 기본값(초기화 방식·옵티마이저)이 바뀌어 우연히
+  # 학습에 성공해 버리면 본문 논지가 정반대로 뒤집힌다.
+  # 그래서 이 예제만은 "성공하면 경보"다.
+  # 나머지 넷과 반대라, 나중에 버그로 착각해 부등호를 뒤집기 쉽다.
+  # ══════════════════════════════════════════════════════════
+  - id: practice-085
+    page: 85
+    title: 퍼셉트론 — XOR
+    file: notebooks/085_perceptron_xor.ipynb
+    ci: true
+    inverted: true
+    checks:
+      - name: 여전히 학습에 실패하는가
+        extract: {pattern: 'accuracy[^0-9]*([0-9.]+)', take: last}
+        assert: {lt: 0.75}     # ← 의도된 부등호. 위 주석 참조.
+        on_fail: >-
+          XOR이 학습에 성공했습니다. 라이브러리 기본값이 바뀐 것으로
+          보입니다. 본문 85쪽의 논지가 뒤집히므로 즉시 확인이
+          필요합니다. 자료실 코드와 본문 서술을 함께 검토할 것.
+
+  - id: practice-108
+    page: 108
+    title: RNN 실습
+    file: notebooks/108_rnn.ipynb
+    ci: true
+    checks:
+      - name: 문장 생성
+        extract: {last_output_nonempty: true}
+        assert: {truthy: true}
+        on_fail: 문장이 생성되지 않았습니다.
+
+  - id: practice-220
+    page: 220
+    title: LLM 사용 예제
+    file: notebooks/220_llm.ipynb
+    # TODO: API 키가 필요한지 확인할 것 (§10 체크리스트 미완료 항목).
+    #   필요 없다  → ci: true 로 바꾼다.
+    #   필요하다   → 리포지토리 시크릿을 만들고 워크플로에 주입하거나,
+    #               ci: false 로 두고 manual 점검으로 넘긴다.
+    #               키를 노트북에 하드코딩해 커밋하지 말 것.
+    ci: false
+    manual: monthly
+    checks:
+      - name: 응답 반환
+        extract: {last_output_nonempty: true}
+        assert: {truthy: true}
+        on_fail: 응답이 반환되지 않았습니다. 인터페이스 변경을 의심할 것.
+
+# 188쪽은 GIF 애니메이션이라 실행 점검 대상이 아니다. 링크 점검만 한다.

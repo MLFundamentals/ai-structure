@@ -1,0 +1,271 @@
+# ─────────────────────────────────────────────────────────────
+# 『인공지능 구조 원리 교과서』 점검 대상 링크
+#
+# 이 파일이 유일한 원본이다. 사이트 섹션 2와 링크 체커가 함께 읽는다.
+# 사이트 HTML을 직접 고치지 말고 이 파일을 고칠 것.
+#
+# url: null  → 아직 본문 원문과 대조하지 않은 항목. 체커는 건너뛰고
+#              '원문 대조 필요'로 보고한다. 게시 전에 모두 채울 것.
+# expect_block: true
+#            → 자동화 요청을 차단하는 사이트. 어떤 응답이 오든
+#              실패로 처리하지 않고 '자동 판정 불가'로만 기록한다.
+#              (네이버·아마존 등. 거짓 경보가 반복되면 결국 알림을
+#               무시하게 되므로 처음부터 판정 대상에서 뺀다.)
+# manual: <주기>
+#            → 사람이 직접 열어 확인해야 하는 항목. STATUS의
+#              '실환경 점검'에 집계된다.
+# ─────────────────────────────────────────────────────────────
+
+meta:
+  book: 인공지능 구조 원리 교과서
+  edition: 1판 3쇄
+  site: https://mlfundamentals.github.io/ai-structure/
+  updated: 2026-09-06
+
+defaults:
+  timeout: 20
+  retries: 2
+  user_agent: >-
+    Mozilla/5.0 (compatible; ai-structure-linkcheck/1.0;
+    +https://mlfundamentals.github.io/ai-structure/)
+
+# ═══ 본문 실습 (사이트 섹션 1) ═══════════════════════════════
+# 6건 모두 네이버 단축 URL이다. 네이버는 데이터센터 IP의 자동화
+# 요청을 차단하므로 GitHub Actions 러너에서는 정상 여부를 판정할
+# 수 없다. 그래서 전부 expect_block + manual 로 둔다.
+#
+# ⚠ 리다이렉트 최종 주소를 반드시 채울 것. 단축 서비스가 종료되면
+#   이 기록이 실습 자료에 접근할 유일한 경로다. 본문에는 단축
+#   주소만 인쇄돼 있다. 사람이 브라우저에서 열어 주소창을 복사해
+#   resolved 에 적는다.
+
+practice:
+  - id: practice-060
+    page: 60
+    title: 사괏값 예측 실습
+    url: https://m.site.naver.com/1ci9E
+    resolved: null          # TODO: 리다이렉트 최종 주소
+    kind: notebook
+    expect_block: true
+    manual: quarterly
+    verified_manual: 2026-09-06   # 저자가 브라우저에서 직접 열어 확인
+    note: >-
+      2026-09-07 해결 — optimizer.minimize() 제거(Keras 3)로 인한 오류였다.
+      드라이브 원본을 GradientTape + apply_gradients 로 수정하고 실행 확인.
+      3쇄 본문도 함께 수정. 1·2쇄 독자용 안내를 UPDATES에 게시.
+
+  - id: practice-073
+    page: 73
+    title: MNIST — 기초
+    url: https://m.site.naver.com/1ciUb
+    resolved: null          # TODO
+    kind: notebook
+    expect_block: true
+    manual: quarterly
+    verified_manual: 2026-09-06   # 저자가 브라우저에서 직접 열어 확인
+
+  - id: practice-085
+    page: 85
+    title: 퍼셉트론 — XOR
+    url: https://m.site.naver.com/1clOy
+    resolved: null          # TODO
+    kind: notebook
+    expect_block: true
+    manual: quarterly
+    verified_manual: 2026-09-06   # 저자가 브라우저에서 직접 열어 확인
+
+  - id: practice-108
+    page: 108
+    title: RNN 실습
+    url: https://m.site.naver.com/1coJ3
+    resolved: null          # TODO
+    kind: notebook
+    expect_block: true
+    manual: quarterly
+    verified_manual: 2026-09-06   # 저자가 브라우저에서 직접 열어 확인
+
+  - id: practice-188
+    page: 188
+    title: 대규모 언어 모델의 이미지
+    url: https://m.site.naver.com/19GPB
+    resolved: null          # TODO
+    kind: gif               # 실행 점검 대상 아님
+    expect_block: true
+    manual: quarterly
+    verified_manual: 2026-09-06
+
+  - id: practice-220
+    page: 220
+    title: LLM 사용 예제
+    url: https://m.site.naver.com/1cF2e
+    resolved: null          # TODO
+    kind: notebook
+    expect_block: true
+    manual: quarterly
+    verified_manual: 2026-09-06
+
+# ═══ 참고 자료 (사이트 섹션 2) ═══════════════════════════════
+
+references:
+
+  # ── 고위험 ────────────────────────────────────────────────
+  - id: ref-230-goo-gl
+    page: 230
+    title: 구글 이미지 검색 결과 단축 링크
+    url: https://images.app.goo.gl/zF9gTSRcyhg4BesU6
+    risk: high
+    note: >-
+      검색 결과 주소여서 출처로 부적절하다. 3쇄에서 원 출처로
+      교체하거나 삭제를 검토 중.
+
+  - id: ref-230-gitbooks
+    page: 230
+    title: 텐서플로 한국어 문서 (GitBook)
+    url: null               # TODO: 본문의 전체 경로. 루트(gitbooks.io)는 400 반환.
+    risk: high
+    note: GitBook 구 서비스. 언제든 종료될 수 있다.
+
+  - id: ref-231-pstatic
+    page: 231
+    title: 그림 출처 — 네이버 이미지 서버 직접 링크
+    url: null               # TODO: search.pstatic.net/common?quality=75&…
+    risk: high
+    expect_block: true
+    note: 임시 파라미터가 붙은 CDN 주소. 만료 가능.
+
+  - id: ref-231-amazon
+    page: 231
+    title: 그림 출처 — 아마존 이미지 서버 직접 링크
+    url: null               # TODO: m.media-amazon.com/images/M/…
+    risk: high
+    expect_block: true
+    note: CDN 직링크.
+
+  - id: ref-231-youtube
+    page: 231
+    title: 유튜브 영상
+    url: https://www.youtube.com/watch?v=-e1_QhJ1EhQ
+    risk: high
+    manual: quarterly
+    note: >-
+      영상이 삭제·비공개되어도 페이지는 200을 반환한다. 재생
+      가능 여부는 사람이 직접 확인해야 한다.
+
+  # ── 중위험 ────────────────────────────────────────────────
+  - id: ref-230-ahracho
+    page: 230
+    title: ahracho.github.io
+    url: null               # TODO
+    risk: medium
+
+  - id: ref-230-nvidia
+    page: 230
+    title: NVIDIA 코리아 블로그
+    url: null               # TODO
+    risk: medium
+
+  - id: ref-230-jiho
+    page: 230
+    title: jiho-ml.com
+    url: null               # TODO
+    risk: medium
+
+  - id: ref-230-ratsgo
+    page: 230
+    title: ratsgo's blog
+    url: null               # TODO
+    risk: medium
+
+  - id: ref-230-asimov
+    page: 230
+    title: The Asimov Institute — 신경망 구조도
+    url: https://www.asimovinstitute.org/neural-network-zoo/
+    replaces: "asimovinstitute.org/?s=…"
+    risk: medium
+    note: >-
+      본문은 검색 결과 주소를 쓰고 있다. 위 고정 주소가 생존
+      확인됨(2016-09-14 게시, 2025-01-03 갱신). 3쇄에서 교체 권장.
+
+  - id: ref-231-provino
+    page: 231
+    title: andreaprovino.it
+    url: null               # TODO
+    risk: medium
+
+  - id: ref-231-amp
+    page: 231
+    title: Alternative Movie Posters
+    url: null               # TODO
+    risk: medium
+
+  - id: ref-231-computing
+    page: 231
+    title: 한국정보과학회
+    url: null               # TODO
+    risk: medium
+
+  # ── 저위험 ────────────────────────────────────────────────
+  # 점검하되 알림 우선순위는 낮다. 쪽수는 본문 대조 후 채울 것.
+  - id: ref-cs231n-notes
+    page: null              # TODO
+    title: 스탠퍼드 CS231n 강의 노트 (3건)
+    url: https://cs231n.github.io/
+    risk: low
+    note: 2026-09-06 생존 확인. 본문이 가리키는 개별 노트 3건의 주소를 따로 채울 것.
+
+  - id: ref-cs231n-home
+    page: null              # TODO
+    title: 스탠퍼드 CS231n 강의 홈
+    url: https://cs231n.stanford.edu/
+    risk: low
+
+  - id: ref-wikidocs
+    page: null              # TODO
+    title: 위키독스 (4건)
+    url: null               # TODO: wikidocs.net/<번호> 4건을 개별 항목으로 분리할 것
+    risk: low
+
+  - id: ref-wikipedia
+    page: null              # TODO
+    title: 위키백과 항목 (6건)
+    url: null               # TODO: 6건을 개별 항목으로 분리할 것
+    risk: low
+    expect_block: true
+    note: 위키백과는 자동화 요청에 403을 반환하는 경우가 있다.
+
+  - id: ref-hunkim
+    page: null              # TODO
+    title: 모두를 위한 머신러닝/딥러닝 강의
+    url: https://hunkim.github.io/ml/
+    risk: low
+
+  - id: ref-projector
+    page: null              # TODO
+    title: Embedding Projector
+    url: https://projector.tensorflow.org/
+    risk: low
+
+  - id: ref-waymo
+    page: null              # TODO
+    title: Waymo
+    url: https://waymo.com/
+    risk: low
+
+  - id: ref-isl
+    page: null              # TODO
+    title: 스탠퍼드 ISL 논문 PDF
+    url: null               # TODO
+    risk: low
+
+  - id: ref-pcmag
+    page: null              # TODO
+    title: PCMag 기사
+    url: null               # TODO
+    risk: low
+    expect_block: true
+
+  - id: ref-kofac
+    page: null              # TODO
+    title: 한국과학창의재단 교과서
+    url: null               # TODO
+    risk: low

@@ -1,0 +1,59 @@
+{
+  "links": {
+    "checked": null,
+    "state": "wait",
+    "summary": "대상 확정 중"
+  },
+  "notebooks": {
+    "checked": null,
+    "state": "wait",
+    "summary": "대상 5개 (188쪽 그림 제외) — 사본 배치 대기",
+    "results": [
+      {
+        "id": "practice-060",
+        "page": 60,
+        "title": "사괏값 예측 실습",
+        "state": "wait",
+        "label": "점검 예정",
+        "detail": "노트북 사본이 아직 없습니다 (notebooks/060_apple_price.ipynb)."
+      },
+      {
+        "id": "practice-073",
+        "page": 73,
+        "title": "MNIST — 기초",
+        "state": "wait",
+        "label": "점검 예정",
+        "detail": "노트북 사본이 아직 없습니다 (notebooks/073_mnist_basic.ipynb)."
+      },
+      {
+        "id": "practice-085",
+        "page": 85,
+        "title": "퍼셉트론 — XOR",
+        "state": "wait",
+        "label": "점검 예정",
+        "detail": "노트북 사본이 아직 없습니다 (notebooks/085_perceptron_xor.ipynb)."
+      },
+      {
+        "id": "practice-108",
+        "page": 108,
+        "title": "RNN 실습",
+        "state": "wait",
+        "label": "점검 예정",
+        "detail": "노트북 사본이 아직 없습니다 (notebooks/108_rnn.ipynb)."
+      },
+      {
+        "id": "practice-220",
+        "page": 220,
+        "title": "LLM 사용 예제",
+        "state": "manual",
+        "label": "수동 점검",
+        "detail": "CI 대상이 아닙니다."
+      }
+    ]
+  },
+  "manual": {
+    "checked": "2026-09-07",
+    "state": "ok",
+    "summary": "실습 6건 링크 확인 · 60쪽 코드 갱신 완료"
+  }
+}

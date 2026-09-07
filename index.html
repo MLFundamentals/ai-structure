@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>자료 안내 — 인공지능 구조 원리 교과서</title>
+<meta name="description" content="『인공지능 구조 원리 교과서』 본문 실습, 참고 자료 링크, 정오표를 안내하는 페이지입니다.">
+<style>
+:root{
+  --paper:#faf9f6;
+  --panel:#ffffff;
+  --ink:#1b1b19;
+  --ink-2:#41403b;
+  --muted:#75736c;
+  --rule:#e2ded4;
+  --rule-2:#efece4;
+  --accent:#2a4a7f;
+  --ok:#2f6b45; --ok-bg:#e8f2ea;
+  --warn:#8a5a10; --warn-bg:#f7efdd;
+  --bad:#973020; --bad-bg:#f7e7e3;
+  --wait:#6a6862; --wait-bg:#eeece5;
+  --todo:#7a4a86; --todo-bg:#f1eaf4;
+  --shadow:0 1px 2px rgba(28,28,25,.05), 0 8px 24px -18px rgba(28,28,25,.5);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#14140f; --panel:#1c1c17; --ink:#eceae2; --ink-2:#c9c6bb; --muted:#928f85;
+    --rule:#33322b; --rule-2:#26261f; --accent:#8fb2e8;
+    --ok:#8fd0a6; --ok-bg:#1c2c22; --warn:#e0b465; --warn-bg:#2d2618;
+    --bad:#e79c8c; --bad-bg:#2e1e1a; --wait:#a09d93; --wait-bg:#26261f;
+    --todo:#c9a6d6; --todo-bg:#2a2130;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;
+  font-size:16px; line-height:1.72;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--accent)}
+.mono{font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace}
+.wrap{max-width:940px; margin:0 auto; padding:0 24px}
+
+/* ── masthead ───────────────────────────────── */
+.masthead{position:relative; overflow:hidden; border-bottom:1px solid var(--rule); background:var(--panel)}
+.weights{
+  position:absolute; inset:-10% -4%; margin:0; z-index:0;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12.5px; line-height:2.05; letter-spacing:.02em;
+  color:var(--ink); opacity:.055; white-space:pre; user-select:none;
+  transform:rotate(-1.2deg);
+  /* 텍스트가 놓이는 왼쪽 아래를 비우고 오른쪽 위로 밀도를 몰아 준다 */
+  -webkit-mask-image:radial-gradient(75% 105% at 92% 8%, #000 0%, rgba(0,0,0,.35) 45%, transparent 72%);
+  mask-image:radial-gradient(75% 105% at 92% 8%, #000 0%, rgba(0,0,0,.35) 45%, transparent 72%);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .weights{opacity:.10}}
+@media (max-width:720px){.weights{opacity:.035}}
+.masthead-inner{position:relative; z-index:1; padding:76px 0 60px}
+.eyebrow{
+  margin:0 0 14px; font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--muted); font-weight:600;
+}
+.masthead h1{
+  margin:0; font-size:clamp(28px,5vw,42px); line-height:1.28; letter-spacing:-.02em; font-weight:700;
+}
+.masthead .sub{margin:14px 0 0; color:var(--ink-2); font-size:16px}
+.masthead .imprint{margin:22px 0 0; color:var(--muted); font-size:13.5px}
+
+/* ── nav ────────────────────────────────────── */
+.tocbar{
+  position:sticky; top:0; z-index:5;
+  background:color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter:saturate(1.4) blur(8px);
+  border-bottom:1px solid var(--rule);
+}
+.tocbar ul{margin:0; padding:0; list-style:none; display:flex; gap:6px; overflow-x:auto; scrollbar-width:none}
+.tocbar ul::-webkit-scrollbar{display:none}
+.tocbar a{
+  display:block; padding:13px 12px; font-size:13px; font-weight:600; letter-spacing:.06em;
+  color:var(--ink-2); text-decoration:none; white-space:nowrap;
+}
+.tocbar a:hover{color:var(--accent)}
+
+/* ── sections ───────────────────────────────── */
+main{padding:8px 0 0}
+section{padding:56px 0 12px; border-bottom:1px solid var(--rule-2)}
+section:last-of-type{border-bottom:0}
+.sec-label{
+  margin:0 0 6px; font-size:11.5px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--muted); font-weight:700;
+}
+h2{margin:0 0 10px; font-size:23px; letter-spacing:-.01em; font-weight:700}
+.lede{margin:0 0 28px; color:var(--ink-2); max-width:64ch}
+h3{margin:34px 0 12px; font-size:15px; font-weight:700; letter-spacing:.01em}
+
+/* ── badges ─────────────────────────────────── */
+.badge{
+  display:inline-block; padding:2px 9px; border-radius:999px;
+  font-size:11.5px; font-weight:700; letter-spacing:.02em; white-space:nowrap;
+  line-height:1.7;
+}
+.b-ok{color:var(--ok); background:var(--ok-bg)}
+.b-warn{color:var(--warn); background:var(--warn-bg)}
+.b-bad{color:var(--bad); background:var(--bad-bg)}
+.b-wait{color:var(--wait); background:var(--wait-bg)}
+.b-todo{color:var(--todo); background:var(--todo-bg)}
+
+/* ── practice cards ─────────────────────────── */
+.cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(272px,1fr)); gap:14px; margin:0}
+.card{
+  background:var(--panel); border:1px solid var(--rule); border-radius:12px;
+  padding:18px 18px 16px; box-shadow:var(--shadow); display:flex; flex-direction:column;
+}
+.card-top{display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:8px}
+.page-no{font-size:12px; font-weight:700; color:var(--muted); letter-spacing:.04em}
+.card h4{margin:0 0 6px; font-size:17px; font-weight:700; letter-spacing:-.01em}
+.card p{margin:0 0 12px; font-size:13.5px; color:var(--ink-2); line-height:1.6}
+.card .note{
+  margin:0 0 12px; font-size:12.5px; color:var(--warn);
+  background:var(--warn-bg); border-radius:8px; padding:8px 10px; line-height:1.55;
+}
+.card .foot{margin-top:auto; display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding-top:12px; border-top:1px solid var(--rule-2)}
+.open{
+  font-size:13px; font-weight:700; text-decoration:none; color:var(--accent);
+}
+.open:hover{text-decoration:underline}
+.checks{font-size:11.5px; color:var(--muted)}
+
+/* ── callout ────────────────────────────────── */
+.callout{
+  border-left:3px solid var(--accent); background:var(--panel);
+  padding:14px 16px; border-radius:0 10px 10px 0; margin:0 0 28px;
+  font-size:14px; color:var(--ink-2); border-top:1px solid var(--rule);
+  border-right:1px solid var(--rule); border-bottom:1px solid var(--rule);
+}
+.callout strong{color:var(--ink)}
+
+/* ── reference list ─────────────────────────── */
+.refs{margin:0; padding:0; list-style:none; border-top:1px solid var(--rule-2)}
+.refs li{
+  display:grid; grid-template-columns:52px 1fr auto; gap:14px; align-items:baseline;
+  padding:13px 2px; border-bottom:1px solid var(--rule-2);
+}
+.refs .pg{font-size:12.5px; font-weight:700; color:var(--muted); letter-spacing:.02em}
+.refs .desc{font-size:14.5px}
+.refs .desc em{display:block; font-style:normal; font-size:12.5px; color:var(--muted); margin-top:3px;
+  word-break:break-all; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.refs .alt{display:block; font-size:12.5px; color:var(--ink-2); margin-top:5px}
+.refs li.todo{background:var(--todo-bg); border-radius:8px; padding-left:10px; padding-right:10px}
+
+/* ── plain blocks ───────────────────────────── */
+.block{background:var(--panel); border:1px solid var(--rule); border-radius:12px; padding:20px 22px; box-shadow:var(--shadow)}
+.block + .block{margin-top:14px}
+.block h4{margin:0 0 6px; font-size:15px; font-weight:700}
+.block p{margin:0; color:var(--ink-2); font-size:14.5px}
+.empty{color:var(--muted); font-size:14.5px; margin:0}
+.entry{margin-top:16px; padding-top:16px; border-top:1px solid var(--rule-2)}
+.entry-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:6px}
+.entry-head h5{margin:0; font-size:14.5px; font-weight:700}
+.entry-head .date{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12.5px; color:var(--muted); white-space:nowrap}
+.entry p{margin:0 0 8px}
+pre.code{
+  margin:10px 0 0; padding:12px 14px; overflow-x:auto; border-radius:8px;
+  background:var(--rule-2); border:1px solid var(--rule);
+  font-family:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  font-size:12.5px; line-height:1.6; color:var(--ink);
+}
+.errata{margin:10px 0 0; padding:0 0 0 18px; color:var(--ink-2); font-size:14.5px}
+.errata li{margin:6px 0}
+.errata .tag{font-size:11.5px; color:var(--muted); font-weight:700}
+
+/* ── status table ───────────────────────────── */
+.status{width:100%; border-collapse:collapse; font-size:14.5px}
+.status th{
+  text-align:left; font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--muted); font-weight:700; padding:0 10px 10px 0; border-bottom:1px solid var(--rule);
+}
+.status td{padding:13px 10px 13px 0; border-bottom:1px solid var(--rule-2); vertical-align:top}
+.status td:first-child{font-weight:600}
+.status .date{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13.5px; color:var(--ink-2); white-space:nowrap}
+.scroll{overflow-x:auto}
+
+/* ── footer ─────────────────────────────────── */
+footer{border-top:1px solid var(--rule); margin-top:48px; padding:36px 0 56px; color:var(--muted); font-size:13.5px}
+footer p{margin:0 0 8px}
+footer a{color:var(--accent)}
+footer .series{margin-top:18px; padding-top:18px; border-top:1px solid var(--rule-2)}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+<pre class="weights" aria-hidden="true">-0.8826 +0.0887 -0.5742 -0.1874 +0.4093 +0.1333 +0.4155 -0.1556 +0.8134 -0.1876 +0.5319 -0.2129 -0.1110 +0.1597 -0.3326 +0.4379 +0.2630 +0.4982 -0.2691 +0.5057 -0.2221 +0.1112
+-0.6172 +0.4244 +0.4520 +0.0839 -0.0664 -0.0274 -0.3248 +0.2938 +0.0313 -0.5581 +0.7836 -0.2188 +0.4535 -0.6117 -0.2264 -0.0225 -0.2907 +0.0822 +0.6577 +0.4175 +0.3278 -0.9580
+-0.0685 +0.2572 +0.3974 +0.7759 -0.4564 +0.0532 +0.3987 +0.0729 +0.2951 +0.4419 -0.2640 -0.1319 +0.4471 -0.5224 +0.5894 +0.3267 -0.4979 +0.2523 +1.2912 -0.7910 +0.6936 -0.7996
++0.4303 -0.1147 -0.6529 -0.0717 +0.0427 +0.1459 -0.1135 +0.1497 +0.5658 -0.3237 +0.1481 +0.2469 -0.5548 +0.0731 -0.0773 -0.4038 +0.1335 +0.1610 +0.1404 +0.1192 +0.3202 -0.0356
+-0.1248 +0.3301 +0.0222 +0.5324 -0.1761 -0.5128 -1.0915 -0.8273 -0.3863 -0.5230 -0.7735 +0.4542 +0.0239 -0.1361 +0.1084 -0.1771 +0.3638 -0.2921 -0.0911 -0.8714 +0.2930 -0.1557
+-0.0091 -0.0980 -0.7129 +0.0052 +0.1486 +0.1228 -0.3779 +0.1114 +1.0114 +0.2967 +0.0297 +0.4830 -0.0065 +1.1808 -0.4741 +0.5016 -0.2157 -0.0598 +0.6504 +0.0056 -0.1366 +0.2404
+-0.4762 +0.1075 +0.0223 +0.3961 -0.2320 +0.1054 +0.0942 -0.3208 +0.3480 +0.2343 -0.1783 +0.1254 +0.4125 +0.4098 +0.4043 -0.1109 +0.8090 -0.1202 -0.1802 -0.4422 -0.1039 -0.5656
++0.5158 +0.7656 +0.2250 +0.1723 -0.4643 +0.5275 -0.1380 +0.0881 -0.4776 -0.2455 +0.1297 +0.7414 -0.0868 -0.1859 -0.9720 -0.3512 -0.5813 -0.3752 +0.5640 -0.4438 +0.0473 -0.0621
+-0.3527 -0.1737 -0.9170 +0.0542 -0.0345 -0.6940 +0.2114 -0.1563 +0.0126 -0.3781 +0.8117 -0.1103 -0.1250 +0.5654 +0.1581 -0.1087 +0.2257 -0.5391 -0.1934 +0.1222 -0.3163 +0.2802
+-0.5719 +0.6365 +0.3990 +0.6287 +0.8149 +0.9414 -0.7603 -0.3751 -0.1508 -0.0437 +0.2141 -0.2093 +0.1976 -0.1898 +0.2437 -0.3219 +0.6629 -0.9046 +0.4616 -0.5304 +0.4794 -0.0420
+-0.5438 +0.4852 +0.2719 +0.6098 +0.8548 +0.7107 -0.5601 +0.4338 +0.2156 -0.2258 -0.4135 -0.0089 -0.1627 -0.1940 -0.0580 -0.3866 -0.0381 -0.1532 -0.2846 +0.6072 -0.2186 -0.1836
+-0.2964 -0.3283 +0.1990 +0.2882 -0.3924 +0.2466 -0.8225 +0.0193 +0.4555 +0.4748 -0.7404 -0.1219 -0.4712 +0.1514 -0.6526 +0.1036 -0.1409 +0.1486 +0.5570 +0.1829 -0.0565 -0.9956
++0.1135 +0.4491 +0.3190 +0.7539 -0.1366 +0.0827 +0.2785 -0.6732 -0.4110 -0.5433 +0.2373 -0.7236 -0.8444 +0.2688 -0.8573 +0.6018 +0.0456 +0.2663 +0.2348 +0.0203 +0.2498 -0.1247
++0.1622 +0.4066 -0.0832 -0.0232 -0.4824 -0.4744 -0.1687 -0.4000 +0.4768 -0.0875 -0.0660 +0.3650 -0.1067 +0.3721 -0.1148 -0.2186 -0.1069 +0.7680 +0.2045 -0.3973 +0.7135 +0.6530</pre>
+  <div class="wrap masthead-inner">
+    <p class="eyebrow">자료 안내</p>
+    <h1>인공지능 구조 원리 교과서</h1>
+    <p class="sub">본문 실습 · 참고 자료 링크 · 정오표</p>
+    <p class="imprint">이 페이지는 책이 나온 뒤에 바뀌는 것들을 모아 둔 곳입니다. 본문에 인쇄된 링크가 열리지 않거나, 실습 코드가 그대로 실행되지 않을 때 이곳을 먼저 확인해 주세요.</p>
+  </div>
+</header>
+
+<nav class="tocbar">
+  <div class="wrap">
+    <ul>
+      <li><a href="#practice">본문 실습</a></li>
+      <li><a href="#refs">참고 자료 링크</a></li>
+      <li><a href="#updates">UPDATES</a></li>
+      <li><a href="#errata">ERRATA</a></li>
+      <li><a href="#status">STATUS</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+
+<!-- ══ 섹션 1 · 본문 실습 ═══════════════════════════════════ -->
+<section id="practice">
+  <div class="wrap">
+    <p class="sec-label">Section 01</p>
+    <h2>본문 실습</h2>
+    <p class="lede">본문에 실린 여섯 개의 실습입니다. 책에 인쇄된 것과 같은 주소이며, 코드가 갱신된 경우 이곳의 자료가 항상 최신입니다.</p>
+
+    <div class="callout">
+      <strong>링크가 열리지 않는다면</strong> — 회사나 학교의 네트워크에서 차단되는 경우가 있습니다. 스마트폰으로 접속하면 대개 열립니다. (본문 73쪽 안내와 같습니다.)
+    </div>
+
+    <div class="cards">
+
+      <article class="card">
+        <div class="card-top"><span class="page-no">60쪽</span><span class="badge b-ok" data-nb="practice-060">정상</span></div>
+        <h4>사괏값 예측 실습</h4>
+        <p>경사하강법으로 가중치를 찾아 가는 과정을 학습 로그로 확인합니다.</p>
+        <p class="note">학습할 때마다 산출되는 값은 조금씩 달라질 수 있습니다. 책의 숫자와 완전히 같지 않아도 정상입니다.<br><strong>1·2쇄를 갖고 계신 분은 <a href="#updates">UPDATES</a>를 확인해 주세요</strong> — 책에 실린 코드가 최신 텐서플로에서 실행되지 않습니다.</p>
+        <div class="foot">
+          <a class="open" href="https://m.site.naver.com/1ci9E" target="_blank" rel="noopener">실습 열기 →</a>
+          <span class="checks">링크 · 실행 · 결과</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><span class="page-no">73쪽</span><span class="badge b-wait" data-nb="practice-073">점검 예정</span></div>
+        <h4>MNIST — 기초</h4>
+        <p>손글씨 숫자 이미지를 15 에폭 동안 학습시킵니다.</p>
+        <div class="foot">
+          <a class="open" href="https://m.site.naver.com/1ciUb" target="_blank" rel="noopener">실습 열기 →</a>
+          <span class="checks">링크 · 실행 · 결과</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><span class="page-no">85쪽</span><span class="badge b-wait" data-nb="practice-085">점검 예정</span></div>
+        <h4>퍼셉트론 — XOR</h4>
+        <p>단층 퍼셉트론으로 XOR을 학습시켜 봅니다.</p>
+        <p class="note">이 실습은 <strong>실패하는 것이 정답</strong>입니다. 천 번을 학습시켜도 오차가 줄지 않고 답이 계속 틀리는 것이 정상이며, 그 한계가 다층 퍼셉트론으로 넘어가는 이유가 됩니다.</p>
+        <div class="foot">
+          <a class="open" href="https://m.site.naver.com/1clOy" target="_blank" rel="noopener">실습 열기 →</a>
+          <span class="checks">링크 · 실행 · 결과</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><span class="page-no">108쪽</span><span class="badge b-wait" data-nb="practice-108">점검 예정</span></div>
+        <h4>RNN 실습</h4>
+        <p>순환 신경망으로 문장을 한 글자씩 이어 생성합니다.</p>
+        <div class="foot">
+          <a class="open" href="https://m.site.naver.com/1coJ3" target="_blank" rel="noopener">실습 열기 →</a>
+          <span class="checks">링크 · 실행 · 결과</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><span class="page-no">188쪽</span><span class="badge b-ok">정상</span></div>
+        <h4>대규모 언어 모델의 이미지</h4>
+        <p>실행하는 코드가 아니라 움직이는 그림(GIF)입니다. 내려받거나 설치할 것이 없습니다.</p>
+        <div class="foot">
+          <a class="open" href="https://m.site.naver.com/19GPB" target="_blank" rel="noopener">그림 열기 →</a>
+          <span class="checks">링크</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top"><span class="page-no">220쪽</span><span class="badge b-ok" data-nb="practice-220">정상</span></div>
+        <h4>LLM 사용 예제</h4>
+        <p>대규모 언어 모델을 직접 호출해 응답을 받아 봅니다.</p>
+        <div class="foot">
+          <a class="open" href="https://m.site.naver.com/1cF2e" target="_blank" rel="noopener">실습 열기 →</a>
+          <span class="checks">링크 · 실행 · 결과</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ 섹션 2 · 참고 자료 링크 ═══════════════════════════════
+     TODO(게시 전): 아래 항목의 전체 URL과 설명을 본문 230~231쪽 원문과 대조해 확정할 것.
+       · class="todo" 가 붙은 항목은 도메인만 확인된 상태이며, 정확한 경로가 채워지지 않았음.
+       · 확정 후 class="todo" 와 <span class="badge b-todo">를 제거하고 상태 배지로 교체.
+       · 최종 목록은 links.yml 과 항상 같은 내용이어야 함.
+════════════════════════════════════════════════════════ -->
+<section id="refs">
+  <div class="wrap">
+    <p class="sec-label">Section 02</p>
+    <h2>참고 자료 링크</h2>
+    <p class="lede">본문에 인쇄된 외부 링크를 쪽수 순으로 모았습니다. 원본이 사라진 항목은 대체 경로를 함께 적어 둡니다. 책은 그대로 두고 이 목록을 고쳐 나갑니다.</p>
+
+    <div id="refs-body"><!-- data/links.json 이 있으면 이 내용을 그 결과로 대체한다.
+         아래 정적 목록은 스크립트가 동작하지 않는 환경의 대체 표시다. -->
+    <h3>우선 확인 대상</h3>
+    <ul class="refs">
+      <li class="todo">
+        <span class="pg">230쪽</span>
+        <span class="desc">구글 이미지 검색 결과 단축 링크
+          <em>images.app.goo.gl/zF9gTSRcyhg4BesU6</em>
+          <span class="alt">검색 결과 주소여서 출처로 삼기에 적절하지 않습니다. 원 출처로 교체하거나 삭제를 검토 중입니다.</span>
+        </span>
+        <span class="badge b-todo">원문 대조</span>
+      </li>
+      <li class="todo">
+        <span class="pg">230쪽</span>
+        <span class="desc">텐서플로 한국어 문서 (GitBook)
+          <em>tensorflowkorea.gitbooks.io</em>
+          <span class="alt">GitBook 구 서비스로, 언제든 종료될 수 있습니다.</span>
+        </span>
+        <span class="badge b-todo">원문 대조</span>
+      </li>
+      <li class="todo">
+        <span class="pg">231쪽</span>
+        <span class="desc">그림 출처 — 네이버 이미지 서버 직접 링크
+          <em>search.pstatic.net/common?quality=75&amp;…</em>
+          <span class="alt">임시 파라미터가 붙은 주소여서 만료될 수 있습니다.</span>
+        </span>
+        <span class="badge b-todo">원문 대조</span>
+      </li>
+      <li class="todo">
+        <span class="pg">231쪽</span>
+        <span class="desc">그림 출처 — 아마존 이미지 서버 직접 링크
+          <em>m.media-amazon.com/images/M/…</em>
+        </span>
+        <span class="badge b-todo">원문 대조</span>
+      </li>
+      <li class="todo">
+        <span class="pg">231쪽</span>
+        <span class="desc">유튜브 영상
+          <em>youtube.com/watch?v=-e1_QhJ1EhQ</em>
+          <span class="alt">영상이 내려가도 페이지 자체는 열리므로, 재생 여부는 사람이 직접 확인합니다.</span>
+        </span>
+        <span class="badge b-todo">원문 대조</span>
+      </li>
+    </ul>
+
+    <h3>개인 블로그 · 소규모 사이트</h3>
+    <ul class="refs">
+      <li class="todo"><span class="pg">230쪽</span><span class="desc">ahracho.github.io<em>ahracho.github.io</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">230쪽</span><span class="desc">NVIDIA 코리아 블로그<em>blogs.nvidia.co.kr</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">230쪽</span><span class="desc">jiho-ml.com<em>jiho-ml.com</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">230쪽</span><span class="desc">ratsgo's blog<em>ratsgo.github.io</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">230쪽</span><span class="desc">The Asimov Institute — 신경망 구조도<em>asimovinstitute.org/?s=…</em><span class="alt">검색 결과 주소입니다. 해당 글의 고정 주소로 바꾸는 편이 안전합니다.</span></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">231쪽</span><span class="desc">andreaprovino.it<em>andreaprovino.it</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">231쪽</span><span class="desc">Alternative Movie Posters<em>alternativemovieposters.com</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">231쪽</span><span class="desc">한국정보과학회<em>computing.or.kr</em></span><span class="badge b-todo">원문 대조</span></li>
+    </ul>
+
+    <h3>강의 자료 · 사전 · 도구</h3>
+    <ul class="refs">
+      <li class="todo"><span class="pg">— </span><span class="desc">스탠퍼드 CS231n 강의 노트 (3건)<em>cs231n.github.io</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">— </span><span class="desc">스탠퍼드 CS231n 강의 홈<em>cs231n.stanford.edu</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">— </span><span class="desc">위키독스 (4건)<em>wikidocs.net</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">— </span><span class="desc">위키백과 항목 (6건)<em>ko.wikipedia.org · en.wikipedia.org</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">— </span><span class="desc">모두를 위한 머신러닝/딥러닝 강의<em>hunkim.github.io/ml/</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">— </span><span class="desc">Embedding Projector<em>projector.tensorflow.org</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">— </span><span class="desc">Waymo<em>waymo.com</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">— </span><span class="desc">스탠퍼드 ISL 논문 PDF<em>isl.stanford.edu</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">— </span><span class="desc">PCMag 기사<em>pcmag.com</em></span><span class="badge b-todo">원문 대조</span></li>
+      <li class="todo"><span class="pg">— </span><span class="desc">한국과학창의재단 교과서<em>—</em></span><span class="badge b-todo">원문 대조</span></li>
+    </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 섹션 3 · UPDATES ═════════════════════════════════════ -->
+<section id="updates">
+  <div class="wrap">
+    <p class="sec-label">Section 03</p>
+    <h2>UPDATES</h2>
+    <p class="lede">책이 나온 뒤에 달라진 것을 정리합니다.</p>
+
+    <div class="block">
+      <h4>실습코드 갱신</h4>
+      <p>라이브러리가 바뀌어 책의 코드가 그대로 실행되지 않는 경우 이곳에 정리합니다. 자료실 코드는 항상 최신으로 유지합니다.</p>
+
+      <!-- TODO(게시 전): 날짜를 실제 게시일로 바꿀 것. -->
+      <div class="entry">
+        <div class="entry-head">
+          <h5>60쪽 · 사괏값 예측 실습 <span class="badge b-warn">1·2쇄 해당</span></h5>
+          <span class="date">2026-00-00</span>
+        </div>
+        <p>텐서플로가 2.16 버전으로 올라가면서 <span class="mono">optimizer.minimize()</span>가 없어졌습니다. 1·2쇄에 실린 코드를 그대로 실행하면 아래 오류가 납니다.</p>
+        <pre class="code">AttributeError: 'SGD' object has no attribute 'minimize'</pre>
+        <p style="margin-top:10px"><strong>독자분 잘못이 아닙니다.</strong> 자료실 코드는 수정해 두었으므로, 위 실습 링크로 들어가시면 그대로 실행됩니다. 3쇄부터는 수정된 코드가 책에 실려 있습니다.</p>
+        <p>직접 고치실 경우 학습 반복문을 아래처럼 바꾸면 됩니다. 고친 코드는 예전 버전에서도 그대로 동작하며, 학습 결과도 책에 실린 값과 같은 범위입니다.</p>
+        <pre class="code">for step in range(2001):
+    with tf.GradientTape() as tape: loss = cost()
+    optimizer.apply_gradients(zip(tape.gradient(loss, [w, b]), [w, b]))</pre>
+      </div>
+    </div>
+
+    <div class="block">
+      <h4>링크 변경</h4>
+      <p>본문에 인쇄된 링크 중 연결되지 않는 것이 생기면 대체 경로를 안내합니다.</p>
+      <p class="empty" style="margin-top:10px">· 현재 안내할 변경 사항이 없습니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 섹션 4 · ERRATA ══════════════════════════════════════
+     TODO(게시 전): 3쇄에서 고친 사실 오류가 3건이라면 아래에 한 건이 빠져 있음. 확인 후 추가할 것.
+════════════════════════════════════════════════════════ -->
+<section id="errata">
+  <div class="wrap">
+    <p class="sec-label">Section 04</p>
+    <h2>ERRATA</h2>
+    <p class="lede">발견된 오류를 쇄별로 구분해 적습니다. 어느 쇄를 갖고 계신지는 판권면에서 확인할 수 있습니다.</p>
+
+    <div class="block">
+      <h4>1판 3쇄 (2026) 기준</h4>
+      <p class="empty">· 아직 보고된 오류가 없습니다.</p>
+    </div>
+
+    <div class="block">
+      <h4>1판 1·2쇄 (2024) 해당</h4>
+      <p>아래 항목은 3쇄에서 수정되었습니다. 1·2쇄를 갖고 계신 독자를 위해 남겨 둡니다.</p>
+      <ul class="errata">
+        <li>144쪽 — GPT-3 모델 차원 <span class="mono">1,280</span> → <span class="mono">12,288</span> <span class="tag">(3쇄 수정)</span></li>
+        <li>226쪽 그림 출처 — 〈Show and Tell〉 2005년 → 2014년 <span class="tag">(3쇄 수정)</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 섹션 5 · STATUS ══════════════════════════════════════
+     TODO: 첫 전체 점검 실행 후 날짜와 수치를 채울 것.
+════════════════════════════════════════════════════════ -->
+<section id="status">
+  <div class="wrap">
+    <p class="sec-label">Section 05</p>
+    <h2>STATUS</h2>
+    <p class="lede">이 페이지의 링크와 실습 코드가 마지막으로 확인된 시점입니다. 자동 점검이 잡지 못하는 문제가 있어, 사람이 직접 열어 보는 점검을 따로 표시합니다.</p>
+
+    <div class="scroll">
+    <table class="status">
+      <thead>
+        <tr><th>점검 항목</th><th>최종 점검일</th><th>결과</th></tr>
+      </thead>
+      <tbody>
+        <tr data-status="notebooks">
+          <td>실습코드 실행</td>
+          <td class="date">—</td>
+          <td><span class="badge b-wait">점검 예정</span> <span class="checks">대상 5개 (188쪽 그림 제외)</span></td>
+        </tr>
+        <tr data-status="links">
+          <td>링크 연결</td>
+          <td class="date">—</td>
+          <td><span class="badge b-wait">점검 예정</span> <span class="checks">대상 확정 중</span></td>
+        </tr>
+        <tr data-status="manual">
+          <td>실환경 점검</td>
+          <td class="date">—</td>
+          <td><span class="badge b-wait">점검 예정</span> <span class="checks">사람이 직접 열어 확인</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>실습 중 막히는 부분이나 책의 오류를 발견하시면 알려 주세요. 확인해 이 페이지에 반영하고, 다음 쇄에 고칩니다.</p>
+    <p><a href="mailto:MLFundamentals@gmail.com">MLFundamentals@gmail.com</a></p>
+    <div class="series">
+      <p>『인공지능 구조 원리 교과서』 자료 안내</p>
+      <p>실습편 — <a href="https://mlfundamentals.github.io/making-ai/" target="_blank" rel="noopener">손으로 배우는 인공지능 실습자료실</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ─────────────────────────────────────────────────────────────
+   점검 결과를 data/*.json 에서 읽어 표시한다.
+   워크플로가 이 JSON을 커밋하므로 HTML은 손대지 않는다.
+   JSON을 못 읽으면 위에 인쇄된 정적 내용이 그대로 남는다.
+   ───────────────────────────────────────────────────────────── */
+(function () {
+  var BADGE = { ok: "b-ok", warn: "b-warn", bad: "b-bad", wait: "b-wait",
+                check: "b-warn", dead: "b-bad", unjudged: "b-wait",
+                unresolved: "b-todo", manual: "b-wait" };
+  var LABEL = { ok: "정상", warn: "확인 필요", bad: "확인 필요", wait: "점검 예정",
+                check: "확인 필요", dead: "소실", unjudged: "자동 판정 불가",
+                unresolved: "원문 대조", manual: "수동 점검" };
+
+  function get(url) {
+    return fetch(url, { cache: "no-cache" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .catch(function () { return null; });
+  }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+    });
+  }
+  function badge(state, text) {
+    return '<span class="badge ' + (BADGE[state] || "b-wait") + '">'
+         + esc(text || LABEL[state] || state) + "</span>";
+  }
+
+  /* ── STATUS 표 + 실습 카드 배지 ── */
+  get("data/status.json").then(function (s) {
+    if (!s) return;
+
+    ["notebooks", "links", "manual"].forEach(function (key) {
+      var row = document.querySelector('tr[data-status="' + key + '"]');
+      var d = s[key];
+      if (!row || !d) return;
+      row.cells[1].textContent = d.checked || "—";
+      row.cells[2].innerHTML = badge(d.state) + ' <span class="checks">'
+                             + esc(d.summary || "") + "</span>";
+    });
+
+    /* 노트북 결과가 실제로 나온 것만 카드 배지를 바꾼다.
+       CI 대상이 아닌 항목(220쪽 등)은 인쇄된 상태를 그대로 둔다. */
+    ((s.notebooks && s.notebooks.results) || []).forEach(function (r) {
+      if (r.state !== "ok" && r.state !== "bad") return;
+      var el = document.querySelector('[data-nb="' + r.id + '"]');
+      if (!el) return;
+      el.className = "badge " + (BADGE[r.state] || "b-wait");
+      el.textContent = r.label || LABEL[r.state];
+      if (r.detail) el.title = r.detail;
+    });
+  });
+
+  /* ── 참고 자료 목록 ── */
+  get("data/links.json").then(function (d) {
+    if (!d || !d.links) return;
+    var body = document.getElementById("refs-body");
+    if (!body) return;
+
+    var refs = d.links.filter(function (l) { return l.group === "references"; });
+    if (!refs.length) return;
+
+    var order = { high: 0, medium: 1, low: 2 };
+    refs.sort(function (a, b) {
+      var r = (order[a.risk] ?? 3) - (order[b.risk] ?? 3);
+      return r || ((a.page || 999) - (b.page || 999));
+    });
+
+    var groups = [["high", "우선 확인 대상"],
+                  ["medium", "개인 블로그 · 소규모 사이트"],
+                  ["low", "강의 자료 · 사전 · 도구"]];
+    var html = "";
+    groups.forEach(function (g) {
+      var items = refs.filter(function (l) { return l.risk === g[0]; });
+      if (!items.length) return;
+      html += "<h3>" + esc(g[1]) + "</h3><ul class='refs'>";
+      items.forEach(function (l) {
+        var target = l.resolved || l.url;
+        html += "<li" + (l.state === "unresolved" ? " class='todo'" : "") + ">"
+              + "<span class='pg'>" + (l.page ? esc(l.page) + "쪽" : "—") + "</span>"
+              + "<span class='desc'>"
+              + (target ? "<a href='" + esc(target) + "' target='_blank' rel='noopener'>"
+                          + esc(l.title) + "</a>"
+                        : esc(l.title))
+              + (target ? "<em>" + esc(target.replace(/^https?:\/\//, "")) + "</em>" : "")
+              + (l.note ? "<span class='alt'>" + esc(l.note) + "</span>" : "")
+              + "</span>"
+              + badge(l.state, l.label)
+              + "</li>";
+      });
+      html += "</ul>";
+    });
+    body.innerHTML = html;
+  });
+})();
+</script>
+
+</body>
+</html>
