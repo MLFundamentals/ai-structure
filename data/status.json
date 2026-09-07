@@ -1,8 +1,15 @@
 {
   "links": {
-    "checked": null,
-    "state": "wait",
-    "summary": "대상 확정 중"
+    "checked": "2026-09-07",
+    "state": "ok",
+    "summary": "29건 전체 정상",
+    "counts": {
+      "ok": 8,
+      "check": 0,
+      "dead": 0,
+      "unjudged": 6,
+      "unresolved": 15
+    }
   },
   "notebooks": {
     "checked": null,
