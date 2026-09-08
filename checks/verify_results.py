@@ -14,6 +14,14 @@
     산출되는 값은 조금씩 달라질 수 있다"고 적혀 있다. 핵심 수치
     몇 개만 범위로 확인한다.
 
+판정 원칙 (2026-09-08 개편)
+    기본은 "오류 없이 끝까지 실행됐는가" 하나다. 수치 검사는 실행 점검이
+    원리적으로 잡지 못하는 곳에만 둔다. 지금은 두 곳뿐이다.
+      · 85쪽 — 오류 없이 잘 돌아가면서 본문 논지를 뒤집을 수 있다
+      · 60쪽 — 오류 없이 수렴만 실패할 수 있다
+    수치 규칙을 늘리기 전에 "실행 점검으로 잡히지 않는가"를 먼저 물을 것.
+    규칙이 늘수록 노트북이 아니라 규칙이 고장 나서 거짓 경보가 난다.
+
 ⚠ 85쪽은 판정 방향이 반대다. notebooks.yml 의 inverted 주석을 읽을 것.
 """
 
@@ -45,11 +53,34 @@ def cell_outputs(nb: dict) -> list[str]:
     return texts
 
 
+# input() 은 CI 에 키보드가 없어서 반드시 이 오류로 끝난다. 노트북이
+# 깨진 것이 아니므로 실행 실패로 세지 않는다. 108·220쪽이 여기 해당한다.
+IGNORED_ERRORS = {"StdinNotImplementedError"}
+
+
+def run_errors(nb: dict) -> list[str]:
+    """실행 중 발생한 오류. 위 예외 목록은 정상으로 본다."""
+    found = []
+    for cell in nb.get("cells", []):
+        for out in cell.get("outputs", []):
+            if out.get("output_type") != "error":
+                continue
+            name = out.get("ename") or "?"
+            if name in IGNORED_ERRORS:
+                continue
+            value = (out.get("evalue") or "").strip().splitlines()
+            found.append(f"{name}: {value[0][:120]}" if value else name)
+    return found
+
+
 def extract(spec: dict, outputs: list[str]):
     if spec.get("last_output_nonempty"):
         return bool(outputs) and bool(outputs[-1].strip())
 
     joined = "\n".join(outputs)
+    if "contains" in spec:
+        # 수치가 아니라 "여기까지 도달했는가"를 보는 검사.
+        return spec["contains"] in joined
     found = re.findall(spec["pattern"], joined, flags=re.IGNORECASE)
     if not found:
         return None
@@ -110,8 +141,12 @@ def main() -> int:
             print(f"[  실행 실패] {page}쪽 {spec['title']}")
             continue
 
-        outputs = cell_outputs(json.loads(executed.read_text(encoding="utf-8")))
-        problems = []
+        nb = json.loads(executed.read_text(encoding="utf-8"))
+
+        # 기본 판정: 오류 없이 끝까지 실행됐는가.
+        problems = [f"실행 오류 — {e}" for e in run_errors(nb)]
+
+        outputs = cell_outputs(nb)
         for check in spec.get("checks", []):
             value = extract(check["extract"], outputs)
             if not judge(value, check["assert"]):
@@ -119,7 +154,9 @@ def main() -> int:
 
         if problems:
             failed += 1
-            state, label = "bad", "결과 이상"
+            # 실행이 깨진 것과 결과가 어긋난 것은 독자에게 다른 사건이다.
+            state = "bad"
+            label = "실행 오류" if problems[0].startswith("실행 오류") else "결과 이상"
         else:
             state, label = "ok", "정상"
 
@@ -129,7 +166,9 @@ def main() -> int:
 
         results.append({"id": nb_id, "page": page, "title": spec["title"],
                         "state": state, "label": label,
-                        "detail": " / ".join(problems) or "기대 범위 안입니다."})
+                        "detail": " / ".join(problems)
+                        or ("오류 없이 실행됐습니다." if not spec.get("checks")
+                            else "오류 없이 실행됐고 수치도 기대 범위 안입니다.")})
         print(f"[{label:>10}] {page}쪽 {spec['title']}"
               + (f"\n             {' / '.join(problems)}" if problems else ""))
 
@@ -139,7 +178,7 @@ def main() -> int:
     status = json.loads(status_path.read_text(encoding="utf-8")) if status_path.exists() else {}
     ran = len(results) - skipped
     if ran == 0:
-        state, summary = "wait", "대상 5개 (188쪽 그림 제외) — 사본 배치 대기"
+        state, summary = "wait", "대상 6개 (188쪽 그림 제외) — 사본 배치 대기"
     elif failed:
         state, summary = "bad", f"{ran}개 중 {failed}개 확인 필요"
     else:
