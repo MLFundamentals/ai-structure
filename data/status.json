@@ -12,49 +12,57 @@
     }
   },
   "notebooks": {
-    "checked": null,
-    "state": "wait",
-    "summary": "대상 5개 (188쪽 그림 제외) — 사본 배치 대기",
+    "checked": "2026-09-08",
+    "state": "ok",
+    "summary": "6개 전체 정상",
     "results": [
       {
         "id": "practice-060",
         "page": 60,
         "title": "사괏값 예측 실습",
-        "state": "wait",
-        "label": "점검 예정",
-        "detail": "노트북 사본이 아직 없습니다 (notebooks/060_apple_price.ipynb)."
+        "state": "ok",
+        "label": "정상",
+        "detail": "오류 없이 실행됐고 수치도 기대 범위 안입니다."
       },
       {
         "id": "practice-073",
         "page": 73,
-        "title": "MNIST — 기초",
-        "state": "wait",
-        "label": "점검 예정",
-        "detail": "노트북 사본이 아직 없습니다 (notebooks/073_mnist_basic.ipynb)."
+        "title": "MNIST — 기초 (Softmax)",
+        "state": "ok",
+        "label": "정상",
+        "detail": "오류 없이 실행됐습니다."
+      },
+      {
+        "id": "practice-103",
+        "page": 103,
+        "title": "CNN 실습 — MNIST",
+        "state": "ok",
+        "label": "정상",
+        "detail": "오류 없이 실행됐습니다."
       },
       {
         "id": "practice-085",
         "page": 85,
         "title": "퍼셉트론 — XOR",
-        "state": "wait",
-        "label": "점검 예정",
-        "detail": "노트북 사본이 아직 없습니다 (notebooks/085_perceptron_xor.ipynb)."
+        "state": "ok",
+        "label": "정상",
+        "detail": "오류 없이 실행됐고 수치도 기대 범위 안입니다."
       },
       {
         "id": "practice-108",
         "page": 108,
         "title": "RNN 실습",
-        "state": "wait",
-        "label": "점검 예정",
-        "detail": "노트북 사본이 아직 없습니다 (notebooks/108_rnn.ipynb)."
+        "state": "ok",
+        "label": "정상",
+        "detail": "오류 없이 실행됐습니다."
       },
       {
         "id": "practice-220",
         "page": 220,
         "title": "LLM 사용 예제",
-        "state": "manual",
-        "label": "수동 점검",
-        "detail": "CI 대상이 아닙니다."
+        "state": "ok",
+        "label": "정상",
+        "detail": "오류 없이 실행됐습니다."
       }
     ]
   },
