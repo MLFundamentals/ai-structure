@@ -18,17 +18,32 @@ permissions:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 90        # 220쪽 LLM 이 CPU 에서 10~20분 걸린다
+    # 2026-09-08 첫 실행 실측 15분(설치 포함, 노트북 6개 전부).
+    # 220쪽 LLM 이 가장 무겁다 — 1GB 급 모델을 받고 문장 1만여 개를 한 줄씩
+    # 임베딩한다. 노트북별 소요는 매 실행 요약의 표에 찍힌다.
+    timeout-minutes: 90
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.11"        # Colab 런타임에 맞춘다
 
+      # ⚠ GPU 빌드를 깔지 말 것. 러너에는 GPU 가 없다.
+      #   · tensorflow 대신 tensorflow-cpu — 내려받는 용량이 절반 이하이고
+      #     코드에서 보이는 모습은 같다 (making-ai 레인 B 와 같은 판단).
+      #   · torch 는 CPU 전용 인덱스에서 받는다. 기본 PyPI 판은 nvidia CUDA
+      #     패키지를 함께 끌고 와 2GB 넘게 내려받는다 — 전부 낭비다.
+      #     torch 를 여기서 이름으로 지목해야 그 인덱스가 실제로 쓰인다.
+      #     (sentence-transformers 의 의존성으로만 두면 PyPI 판이 딸려온다)
+      #
+      #   버전은 고정하지 않는다. 최신 라이브러리에서 깨지는지 보는 것이
+      #   이 점검의 목적이기 때문이다.
       - name: 의존성 설치
         run: |
-          pip install -r requirements-notebooks.txt
+          python -m pip install --upgrade pip
+          pip install -r requirements-notebooks.txt torch \
+                      --extra-index-url https://download.pytorch.org/whl/cpu
           pip install pyyaml nbconvert ipykernel
 
       - name: 라이브러리 버전 기록
@@ -36,7 +51,7 @@ jobs:
           {
             echo "## 실행 환경"
             echo '```'
-            pip list 2>/dev/null | grep -Ei 'tensorflow|keras|numpy|torch|scikit|pandas' || true
+            pip list 2>/dev/null | grep -Ei 'tensorflow|keras|numpy|torch|scikit|pandas|sentence' || true
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -45,10 +60,11 @@ jobs:
         run: |
           mkdir -p build/executed
           python - <<'PY'
-          import subprocess, sys, yaml
+          import os, subprocess, sys, time, yaml
           from pathlib import Path
           cfg = yaml.safe_load(Path("notebooks.yml").read_text(encoding="utf-8"))
           timeout = str(cfg.get("meta", {}).get("timeout_per_notebook", 1800))
+          rows = []
           for spec in cfg["notebooks"]:
               if not spec.get("ci"):
                   print(f"건너뜀 (CI 대상 아님): {spec['file']}"); continue
@@ -56,6 +72,7 @@ jobs:
               if not src.exists():
                   print(f"::warning::노트북 사본이 없습니다: {src}"); continue
               print(f"실행: {src}")
+              t0 = time.time()
               subprocess.run([
                   sys.executable, "-m", "nbconvert", "--to", "notebook", "--execute",
                   "--allow-errors",           # 오류도 출력에 남겨 검증 단계에서 읽는다
@@ -63,6 +80,15 @@ jobs:
                   "--output-dir", "build/executed",
                   "--output", src.stem, str(src),
               ], check=False)
+              rows.append((spec["page"], spec["title"], time.time() - t0))
+
+          # 어디에 시간이 쓰였는지 매번 남긴다. 갑자기 느려지는 것도 노후화 신호다.
+          if sm := os.environ.get("GITHUB_STEP_SUMMARY"):
+              with open(sm, "a", encoding="utf-8") as f:
+                  f.write("\n## 노트북별 실행 시간\n\n| 쪽 | 실습 | 소요 |\n|---|---|---|\n")
+                  for page, title, sec in rows:
+                      f.write(f"| {page} | {title} | {sec/60:.1f}분 |\n")
+                  f.write(f"\n노트북 합계 {sum(r[2] for r in rows)/60:.1f}분\n")
           PY
 
       - name: 결과 검증
@@ -79,7 +105,7 @@ jobs:
           git push
 
       - name: 실행된 노트북 보관
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: executed-notebooks
           path: build/executed/
