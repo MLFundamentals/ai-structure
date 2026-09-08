@@ -1,92 +1,133 @@
-name: 실습 실행 점검
+# ─────────────────────────────────────────────────────────────
+# 실행 점검 · 결과 검증 대상 (§5-B, §5-C)
+#
+# ⚠ 판정 원칙 — 기본은 "오류 없이 끝까지 실행됐는가" 하나다
+#   수치 검사는 실행 점검이 원리적으로 잡지 못하는 곳에만 둔다.
+#   지금은 두 곳뿐이다.
+#     · 85쪽 — 오류 없이 잘 돌아가면서 본문 논지를 뒤집을 수 있다
+#     · 60쪽 — 오류 없이 수렴만 실패할 수 있다
+#   수치 규칙을 늘리기 전에 "이건 실행 점검으로 안 잡히는가"를 먼저
+#   물을 것. 규칙이 늘수록 노트북이 아니라 규칙이 고장 나서 거짓
+#   경보가 난다. 실제로 2026-09-08 에 규칙 세 개가 전부 잘못 걸려
+#   있었고, 노트북은 멀쩡했다.
+#
+# ⚠ 동기화 규칙
+#   notebooks/ 아래의 .ipynb 는 구글 드라이브 원본의 사본이다.
+#   드라이브 원본을 고치면 이 사본도 반드시 함께 고친다.
+#   이 규칙이 깨지면 점검 도구가 독자가 실제로 여는 것과 다른
+#   코드를 검사하게 되어, 통과해도 아무 의미가 없어진다.
+#
+# ⚠ 파일명은 Colab 원본 이름을 그대로 쓴다
+#   Colab 의 "GitHub 에 사본 저장"이 이 이름으로 덮어쓰기 때문이다.
+#   여기서 이름을 바꾸면 다음 저장 때 원래 이름으로 파일이 하나 더
+#   생기고, 이름을 바꿔 둔 쪽이 낡은 사본으로 남는다.
+#
+# ⚠ 검증 셀을 노트북 안에 넣지 말 것
+#   검증은 실행이 끝난 .ipynb 를 checks/verify_results.py 가 바깥에서
+#   읽어 판정한다.
+#
+# ⚠ 108·220쪽은 마지막에 input() 대화형 루프가 있다
+#   CI 에는 키보드가 없어 StdinNotImplementedError 로 끝난다. 이는
+#   정상이며 verify_results.py 가 이 오류만 예외로 넘긴다. 그 앞까지의
+#   출력은 그대로 남으므로 학습 단계가 깨지면 다른 오류로 잡힌다.
+# ─────────────────────────────────────────────────────────────
 
-on:
-  schedule:
-    # 매월 1일 09:00 KST (= 전날 00:00 UTC)
-    - cron: "0 0 1 * *"
-  workflow_dispatch:
-  push:
-    paths:
-      - "notebooks/**"
-      - "notebooks.yml"
-      - "checks/verify_results.py"
-      - "requirements-notebooks.txt"
+meta:
+  timeout_per_notebook: 2400   # 초. 220쪽이 CPU 에서 10~20분 걸린다.
 
-permissions:
-  contents: write
+notebooks:
 
-jobs:
-  run:
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-    steps:
-      - uses: actions/checkout@v4
+  - id: practice-060
+    page: 60
+    title: 사괏값 예측 실습
+    file: notebooks/Linear_Regression.ipynb
+    ci: true
+    checks:
+      # 실행 점검으로 안 잡히는 위험: 옵티마이저 기본값이 바뀌어 오류
+      # 없이 수렴만 실패하는 경우. 책에 학습 로그 표가 인쇄돼 있는데
+      # 독자는 이상한 로그를 봐도 자기 탓으로 여기고 넘어간다.
+      #
+      # 출력은 표 형식이다. 'cost' 는 헤더 한 줄에만 나오므로 라벨 기반
+      # 패턴을 쓰면 헤더 다음의 학습횟수를 집어 온다. 마지막 데이터 행을
+      # 열 위치로 읽는다.
+      #   학습횟수    weight      bias      cost
+      #   2000        0.9898     0.0231    0.00008
+      - name: 학습 수렴
+        extract: {pattern: '\n\s*\d+\s+-?[\d.]+\s+-?[\d.]+\s+([\d.]+)', take: last}
+        assert: {lt: 0.001}
+        on_fail: 학습이 수렴하지 않았습니다. 옵티마이저 기본값 변경을 의심할 것.
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"        # Colab 런타임에 맞춘다
+  - id: practice-073
+    page: 73
+    title: MNIST — 기초 (Softmax)
+    file: notebooks/MNIST_Softmax.ipynb
+    ci: true
+    # 실행 성공만 본다. 오류 없이 돌면서 정확도만 무너지는 시나리오는
+    # 현실성이 낮고, 분기 수동 점검에서 저자가 직접 열어 확인한다.
 
-      - name: 의존성 설치
-        run: |
-          pip install -r requirements-notebooks.txt
-          pip install pyyaml nbconvert ipykernel
+  - id: practice-103
+    page: 103
+    title: CNN 실습 — MNIST
+    file: notebooks/MNIST_CNN.ipynb
+    ci: true
+    # 실행 성공만 본다. 위와 같은 이유.
 
-      - name: 라이브러리 버전 기록
-        run: |
-          {
-            echo "## 실행 환경"
-            echo '```'
-            pip list 2>/dev/null | grep -Ei 'tensorflow|keras|numpy|torch|scikit|pandas' || true
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+  # ══════════════════════════════════════════════════════════
+  # ⚠⚠ 85쪽만 판정 방향이 반대다. 아래를 고치기 전에 반드시 읽을 것.
+  #
+  # 이 예제는 "천 번을 학습시켜도 cost 가 줄지 않고 답도 계속
+  # 틀린다"는 실패를 보여주는 실습이다. 퍼셉트론의 한계를 증명하고
+  # 다층 퍼셉트론으로 넘어가는 논리의 근거다.
+  #
+  # 이 노트북이 이 파일에서 유일하게 수치 검사가 꼭 필요한 곳이다.
+  # 라이브러리 기본값이 바뀌어 XOR 이 우연히 학습에 성공하면 코드는
+  # 오류 없이 멀쩡하게 끝난다. 예외도 경고도 없다. 그런데 본문 85쪽의
+  # 논지만 정반대가 된다. 실행 점검으로는 원리적으로 잡을 수 없다.
+  #
+  # 이 노트북의 출력에는 accuracy 가 없다. 100 에폭마다
+  #   Epoch: 100 | Cost: 4
+  # 만 찍히고, cost 가 0 이 되면 코드가 break 로 조기 종료한다.
+  # 따라서 마지막 Cost 가 크게 남아 있어야 정상이다.
+  # ══════════════════════════════════════════════════════════
+  - id: practice-085
+    page: 85
+    title: 퍼셉트론 — XOR
+    file: notebooks/XOR_perceptron.ipynb
+    ci: true
+    inverted: true
+    checks:
+      - name: 여전히 학습에 실패하는가
+        extract: {pattern: 'Cost:\s*([0-9.]+)', take: last}
+        assert: {gt: 1.5}     # ← 의도된 방향. 위 주석 참조.
+        on_fail: >-
+          XOR 이 학습에 성공했거나 출력 형식이 바뀌었습니다. 성공한 것이라면
+          본문 85쪽의 논지가 뒤집히므로 즉시 확인이 필요합니다. 자료실 코드와
+          본문 서술을 함께 검토할 것.
 
-      - name: 노트북 실행
-        continue-on-error: true          # 한 개가 죽어도 나머지는 돌린다
-        run: |
-          mkdir -p build/executed
-          python - <<'PY'
-          import subprocess, sys, yaml
-          from pathlib import Path
-          cfg = yaml.safe_load(Path("notebooks.yml").read_text(encoding="utf-8"))
-          timeout = str(cfg.get("meta", {}).get("timeout_per_notebook", 1800))
-          for spec in cfg["notebooks"]:
-              if not spec.get("ci"):
-                  print(f"건너뜀 (CI 대상 아님): {spec['file']}"); continue
-              src = Path(spec["file"])
-              if not src.exists():
-                  print(f"::warning::노트북 사본이 없습니다: {src}"); continue
-              print(f"실행: {src}")
-              subprocess.run([
-                  sys.executable, "-m", "nbconvert", "--to", "notebook", "--execute",
-                  "--allow-errors",           # 오류도 출력에 남겨 검증 단계에서 읽는다
-                  f"--ExecutePreprocessor.timeout={timeout}",
-                  "--output-dir", "build/executed",
-                  "--output", src.stem, str(src),
-              ], check=False)
-          PY
+  - id: practice-108
+    page: 108
+    title: RNN 실습
+    file: notebooks/RNN.ipynb
+    ci: true
+    # 실행 성공만 본다. 마지막 input() 오류는 예외 처리되고, model.fit()
+    # 이 그보다 먼저 실행되므로 학습이 깨지면 다른 오류로 잡힌다.
+    # Keras 3 에서 preprocessing 계열(Tokenizer·pad_sequences)이 정리되는
+    # 중이라 이 노트북은 노후화 위험이 큰 편이다.
 
-      - name: 결과 검증
-        id: verify
-        continue-on-error: true
-        run: python checks/verify_results.py
+  - id: practice-220
+    page: 220
+    title: LLM 사용 예제
+    file: notebooks/LLM.ipynb
+    ci: true
+    # 실행 성공만 본다. API 키는 쓰지 않는다.
+    # 다만 무겁다 — 1GB 급 다국어 BERT 를 내려받고 챗봇 문장 1만여 개를
+    # 한 줄씩 임베딩한다. GPU 있는 Colab 에서 3~5분인 작업이 CPU 뿐인
+    # 러너에서는 10~20분 걸린다. 월 1회 실행이라 감당할 만하지만,
+    # 워크플로의 timeout-minutes 를 90 으로 올려 두었다.
+    #
+    # 여기서 잡고 싶은 것은 정확히 두 가지 노후화다.
+    #   · 허깅페이스 모델 xlm-r-100langs-… 가 사라지는 것
+    #   · 챗봇 데이터 CSV(songys/Chatbot_data) 주소가 죽는 것
+    # 둘 다 오류로 즉시 드러난다.
 
-      - name: 결과 커밋
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/
-          git diff --staged --quiet || git commit -m "실행 점검 결과 갱신 ($(date +%F))"
-          git push
-
-      - name: 실행된 노트북 보관
-        uses: actions/upload-artifact@v4
-        with:
-          name: executed-notebooks
-          path: build/executed/
-          retention-days: 90
-
-      - name: 이상이 있으면 실패 처리
-        if: steps.verify.outcome == 'failure'
-        run: |
-          echo "::error::실습 결과가 기대 범위를 벗어났습니다. 85쪽이라면 판정 방향이 반대라는 점을 먼저 확인하세요."
-          exit 1
+# 188쪽은 GIF 애니메이션이라 실행 점검 대상이 아니다. 링크 점검만 한다.
