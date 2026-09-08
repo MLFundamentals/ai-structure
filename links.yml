@@ -30,7 +30,7 @@ defaults:
     +https://mlfundamentals.github.io/ai-structure/)
 
 # ═══ 본문 실습 (사이트 섹션 1) ═══════════════════════════════
-# 6건 모두 네이버 단축 URL이다. 네이버는 데이터센터 IP의 자동화
+# 7건 모두 네이버 단축 URL이다(실습 6 + GIF 1). 네이버는 데이터센터 IP의 자동화
 # 요청을 차단하므로 GitHub Actions 러너에서는 정상 여부를 판정할
 # 수 없다. 그래서 전부 expect_block + manual 로 둔다.
 #
@@ -73,6 +73,23 @@ practice:
     expect_block: true
     manual: quarterly
     verified_manual: 2026-09-06   # 저자가 브라우저에서 직접 열어 확인
+
+  # ⚠ 이 실습은 책에 인쇄된 주소가 잘못되어 있다. 인쇄된 주소도 살아
+  #   있어서 200 을 반환하므로 자동 점검으로는 영원히 잡히지 않는다.
+  #   사람이 열어 보고서야 드러난 종류의 사고다.
+  #   url 에는 올바른 주소를 적는다 — 사이트가 이 값으로 링크를 건다.
+  - id: practice-103
+    page: 103
+    title: CNN 실습 — MNIST
+    url: https://m.site.naver.com/1coHy
+    printed_wrong: https://m.site.naver.com/1clOy   # 책에 잘못 인쇄된 주소
+    resolved: null          # TODO: 리다이렉트 최종 주소
+    kind: notebook
+    expect_block: true
+    manual: quarterly
+    note: >-
+      2026-09-08 발견 — 본문 103쪽에 인쇄된 주소가 다른 실습으로 연결된다.
+      3쇄에서 수정. 1·2쇄 독자용 안내를 UPDATES 와 ERRATA 에 게시.
 
   - id: practice-108
     page: 108
