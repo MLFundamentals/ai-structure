@@ -1,13 +1,13 @@
 {
   "links": {
-    "checked": "2026-09-07",
+    "checked": "2026-09-08",
     "state": "ok",
-    "summary": "29건 전체 정상",
+    "summary": "30건 전체 정상",
     "counts": {
       "ok": 8,
       "check": 0,
       "dead": 0,
-      "unjudged": 6,
+      "unjudged": 7,
       "unresolved": 15
     }
   },

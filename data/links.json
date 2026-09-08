@@ -1,10 +1,10 @@
 {
-  "checked": "2026-09-07",
+  "checked": "2026-09-08",
   "counts": {
     "ok": 8,
     "check": 0,
     "dead": 0,
-    "unjudged": 6,
+    "unjudged": 7,
     "unresolved": 15
   },
   "links": [
@@ -43,6 +43,19 @@
       "resolved": "https://colab.research.google.com/drive/1gvHbBjscSKJxwzqvesIi-uAI005yH5mb?usp=sharing",
       "risk": null,
       "note": null,
+      "state": "unjudged",
+      "label": "자동 판정 불가",
+      "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 200). 사람이 직접 확인합니다."
+    },
+    {
+      "id": "practice-103",
+      "group": "practice",
+      "page": 103,
+      "title": "CNN 실습 — MNIST",
+      "url": "https://m.site.naver.com/1coHy",
+      "resolved": "https://colab.research.google.com/drive/1mZtzXUYm6TQlM2lRrFtaDIlwucCf4ekv?usp=sharing",
+      "risk": null,
+      "note": "2026-09-08 발견 — 본문 103쪽에 인쇄된 주소가 다른 실습으로 연결된다. 3쇄에서 수정. 1·2쇄 독자용 안내를 UPDATES 와 ERRATA 에 게시.",
       "state": "unjudged",
       "label": "자동 판정 불가",
       "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 200). 사람이 직접 확인합니다."
