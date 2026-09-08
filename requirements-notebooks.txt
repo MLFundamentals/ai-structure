@@ -1,11 +1,15 @@
 # 실습 노트북 실행에 필요한 패키지.
 #
 # CI 대상 6건의 실제 import 문에서 뽑았다.
-#   tensorflow             — 60·73·103·108
+#   tensorflow-cpu         — 60·73·103·108 (GPU 빌드를 깔지 말 것. 러너에는
+#                            GPU 가 없고 내려받는 용량이 절반 이하다)
 #   numpy                  — 73·103·85·108·220
 #   matplotlib             — 73·103 (plt.show)
 #   pandas                 — 220
 #   sentence-transformers  — 220
+#
+# torch 는 여기에 적지 않는다. 워크플로가 CPU 전용 인덱스를 지정해 따로 깐다 —
+# 기본 PyPI 판은 nvidia CUDA 패키지를 끌고 와 2GB 넘게 내려받는다.
 # random·urllib 은 표준 라이브러리라 설치가 필요 없다.
 #
 # 220쪽 노트북 안에도 !pip install sentence_transformers 가 있지만,
@@ -17,7 +21,7 @@
 # 영원히 감지하지 못한다. 대신 워크플로가 매 실행마다 pip list 를
 # 요약에 기록한다.
 
-tensorflow
+tensorflow-cpu
 numpy
 matplotlib
 pandas
