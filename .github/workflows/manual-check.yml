@@ -139,3 +139,15 @@ jobs:
           fi
 
           echo "::notice::점검 이슈를 열었다 — $url"
+
+          # 담당자로 지정해 두면 Watch 설정과 무관하게 알림이 간다.
+          # 이 알림은 워크플로 실패가 아니라 이슈를 여는 것이라, Actions 알림
+          # 설정으로는 잡히지 않는다. Watch 가 "All Activity" 가 아니면 분기마다
+          # 이슈가 조용히 열리고 아무도 모르게 된다.
+          #
+          # 이슈를 여는 것이 핵심이므로 지정에 실패해도 워크플로는 실패시키지
+          # 않는다. 경고만 남긴다.
+          if ! gh issue edit "$url" --add-assignee "$GITHUB_REPOSITORY_OWNER"; then
+            echo "::warning::담당자 지정에 실패했다 ($GITHUB_REPOSITORY_OWNER). 이슈 자체는 열렸다."
+            echo "  Watch 설정이 All Activity 인지 확인할 것."
+          fi
