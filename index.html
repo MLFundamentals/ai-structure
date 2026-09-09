@@ -435,6 +435,16 @@ footer .series{margin-top:18px; padding-top:18px; border-top:1px solid var(--rul
 
       <div class="entry">
         <div class="entry-head">
+          <h5>66쪽 · 그림 출처 주소 <span class="badge b-warn">1·2쇄 해당</span></h5>
+          <span class="date">2026-09-09</span>
+        </div>
+        <p>226쪽 「그림 및 사진 출처」의 66쪽 항목에서 주소 한 곳이 잘못 인쇄됐습니다. 경로에 <span class="mono">kr</span> 두 글자가 빠져 있어 연결되지 않습니다. 아래가 올바른 주소입니다.</p>
+        <pre class="code">https://tensorflowkorea.gitbooks.io/tensorflow-kr/content/g3doc/tutorials/mnist/beginners/</pre>
+        <p style="margin-top:10px">텐서플로 문서 한글 번역본의 「MNIST 초급」 문서입니다. 3쇄부터는 책에 올바른 주소가 실려 있습니다.</p>
+      </div>
+
+      <div class="entry">
+        <div class="entry-head">
           <h5>103쪽 · CNN 실습 — MNIST <span class="badge b-warn">1·2쇄 해당</span></h5>
           <span class="date">2026-09-08</span>
         </div>
@@ -466,6 +476,7 @@ footer .series{margin-top:18px; padding-top:18px; border-top:1px solid var(--rul
       <ul class="errata">
         <li>144쪽 — GPT-3 모델 차원 <span class="mono">1,280</span> → <span class="mono">12,288</span> <span class="tag">(3쇄 수정)</span></li>
         <li>226쪽 그림 출처 — 〈Show and Tell〉 2005년 → 2015년 <span class="tag">(3쇄 수정)</span></li>
+        <li>66쪽 그림 출처 — 주소에 <span class="mono">kr</span> 누락. 올바른 주소는 <span class="mono">…gitbooks.io/tensorflow-kr/content/…</span> <span class="tag">(3쇄 수정)</span></li>
         <li>103쪽 실습 주소 — 글자로 인쇄된 주소가 85쪽 실습으로 연결됨(QR은 정상). 올바른 주소는 <span class="mono">m.site.naver.com/1coHy</span> <span class="tag">(3쇄 수정)</span></li>
       </ul>
     </div>
@@ -588,30 +599,58 @@ footer .series{margin-top:18px; padding-top:18px; border-top:1px solid var(--rul
       return r || ((a.page || 999) - (b.page || 999));
     });
 
+    /* 한 줄 그리기 */
+    function row(l) {
+      var target = l.resolved || l.url;
+      return "<li" + (l.state === "unresolved" ? " class='todo'" : "") + ">"
+           + "<span class='pg'>" + (l.page ? esc(l.page) + "쪽" : "—") + "</span>"
+           + "<span class='desc'>"
+           + (target ? "<a href='" + esc(target) + "' target='_blank' rel='noopener'>"
+                       + esc(l.title) + "</a>"
+                     : esc(l.title))
+           + (target ? "<em>" + esc(target.replace(/^https?:\/\//, "")) + "</em>" : "")
+           + (l.note ? "<span class='alt'>" + esc(l.note) + "</span>" : "")
+           + "</span>"
+           + badge(l.state, l.label)
+           + "</li>";
+    }
+
+    /* 독자가 열려고 인쇄된 자료만 늘 보여준다.
+       그림 출처(record)는 접어 두되, 죽었거나 확인이 필요해지면 위로 올린다.
+       — 그림은 이미 책에 실려 있으므로 주소가 죽어도 독자가 잃는 것이 없다.
+         반대로 강의·영상·도구는 죽으면 독자가 갈 곳을 잃는다. */
+    function needsAttention(l) {
+      return l.state === "dead" || l.state === "check";
+    }
+    var shown  = refs.filter(function (l) {
+      return l.audience !== "record" || needsAttention(l);
+    });
+    var folded = refs.filter(function (l) {
+      return l.audience === "record" && !needsAttention(l);
+    });
+
     var groups = [["high", "우선 확인 대상"],
                   ["medium", "블로그 · 언론 · 개별 사이트"],
                   ["low", "강의 자료 · 사전 · 논문 · 도구"]];
     var html = "";
     groups.forEach(function (g) {
-      var items = refs.filter(function (l) { return l.risk === g[0]; });
+      var items = shown.filter(function (l) { return l.risk === g[0]; });
       if (!items.length) return;
       html += "<h3>" + esc(g[1]) + "</h3><ul class='refs'>";
-      items.forEach(function (l) {
-        var target = l.resolved || l.url;
-        html += "<li" + (l.state === "unresolved" ? " class='todo'" : "") + ">"
-              + "<span class='pg'>" + (l.page ? esc(l.page) + "쪽" : "—") + "</span>"
-              + "<span class='desc'>"
-              + (target ? "<a href='" + esc(target) + "' target='_blank' rel='noopener'>"
-                          + esc(l.title) + "</a>"
-                        : esc(l.title))
-              + (target ? "<em>" + esc(target.replace(/^https?:\/\//, "")) + "</em>" : "")
-              + (l.note ? "<span class='alt'>" + esc(l.note) + "</span>" : "")
-              + "</span>"
-              + badge(l.state, l.label)
-              + "</li>";
-      });
+      items.forEach(function (l) { html += row(l); });
       html += "</ul>";
     });
+
+    if (folded.length) {
+      folded.sort(function (a, b) { return (a.page || 999) - (b.page || 999); });
+      html += "<details class='block' style='margin-top:14px'>"
+            + "<summary><strong>그림 및 사진 출처 " + folded.length + "건</strong>"
+            + " — 책에 실린 그림이 어디서 왔는지 밝힌 목록입니다. "
+            + "주소가 연결되지 않는 항목이 생기면 위 목록으로 올라옵니다.</summary>"
+            + "<ul class='refs' style='margin-top:10px'>";
+      folded.forEach(function (l) { html += row(l); });
+      html += "</ul></details>";
+    }
     body.innerHTML = html;
   });
 })();

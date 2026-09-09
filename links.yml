@@ -41,6 +41,7 @@ defaults:
 
 practice:
   - id: practice-060
+    audience: record
     page: 60
     title: 사괏값 예측 실습
     url: https://m.site.naver.com/1ci9E
@@ -55,6 +56,7 @@ practice:
       3쇄 본문도 함께 수정. 1·2쇄 독자용 안내를 UPDATES에 게시.
 
   - id: practice-073
+    audience: record
     page: 73
     title: MNIST — 기초
     url: https://m.site.naver.com/1ciUb
@@ -65,6 +67,7 @@ practice:
     verified_manual: 2026-09-06   # 저자가 브라우저에서 직접 열어 확인
 
   - id: practice-085
+    audience: record
     page: 85
     title: 퍼셉트론 — XOR
     url: https://m.site.naver.com/1clOy
@@ -79,6 +82,7 @@ practice:
   #   사람이 열어 보고서야 드러난 종류의 사고다.
   #   url 에는 올바른 주소를 적는다 — 사이트가 이 값으로 링크를 건다.
   - id: practice-103
+    audience: record
     page: 103
     title: CNN 실습 — MNIST
     url: https://m.site.naver.com/1coHy
@@ -95,6 +99,7 @@ practice:
       3쇄에서 수정. 1·2쇄 독자용 안내를 UPDATES 와 ERRATA 에 게시.
 
   - id: practice-108
+    audience: record
     page: 108
     title: RNN 실습
     url: https://m.site.naver.com/1coJ3
@@ -105,6 +110,7 @@ practice:
     verified_manual: 2026-09-06   # 저자가 브라우저에서 직접 열어 확인
 
   - id: practice-188
+    audience: record
     page: 188
     title: 대규모 언어 모델의 이미지
     url: https://m.site.naver.com/19GPB
@@ -115,6 +121,7 @@ practice:
     verified_manual: 2026-09-06
 
   - id: practice-220
+    audience: record
     page: 220
     title: LLM 사용 예제
     url: https://m.site.naver.com/1cF2e
@@ -149,6 +156,7 @@ references:
   # 본문 전체를 아우르는 자료. 쪽수 표시 없이 목록으로만 실려 있다.
 
   - id: ref-book-ratsgo
+    audience: reader
     listed_on: 226
     section: 참고문헌
     title: "ratsgo's NLPBOOK (이기창)"
@@ -156,6 +164,7 @@ references:
     risk: medium
 
   - id: ref-book-cs231n
+    audience: reader
     listed_on: 226
     section: 참고문헌
     title: "Stanford CS231n: Deep Learning for Computer Vision"
@@ -168,13 +177,16 @@ references:
       넷은 https:// 만 떼는 것이라 접속 주소는 그대로다.
 
   - id: ref-book-wikidocs-nlp
+    audience: reader
     listed_on: 226
     section: 참고문헌
     title: "딥러닝을 이용한 자연어 처리 입문 (유원준·안상준)"
     url: https://wikidocs.net/profile/info/book/6876
     risk: low
+    expect_block: true          # 위키독스·박물관도 자동화 요청을 막는다
 
   - id: ref-book-hunkim
+    audience: reader
     listed_on: 226
     section: 참고문헌
     title: "모두를 위한 머신러닝/딥러닝 강의 (김성훈)"
@@ -183,6 +195,7 @@ references:
     expect_block: true
 
   - id: ref-book-jiho
+    audience: reader
     listed_on: 226
     section: 참고문헌
     title: "위클리 NLP (박지호)"
@@ -192,6 +205,7 @@ references:
   # ══ 그림 및 사진 출처 (226~227쪽) ══════════════════════════
 
   - id: fig-015-show-and-tell
+    audience: record
     page: 15
     listed_on: 226
     section: 그림출처
@@ -202,16 +216,19 @@ references:
       발행연도가 2005년으로 인쇄돼 있으나 2015년이 맞다. 3쇄 수정 대상 — 사이트 ERRATA 에 이미 올라 있다.
 
   - id: fig-021-americanhistory-si
+    audience: record
     page: 21
     listed_on: 226
     section: 그림출처
     title: "미국 국립미국사박물관"
     url: https://americanhistory.si.edu
     risk: medium
+    expect_block: true          # 위키독스·박물관도 자동화 요청을 막는다
     note: >-
       도메인만 인쇄돼 있어 특정 페이지를 가리키지 않는다.
 
   - id: fig-021-wikipedia-expert-system
+    audience: record
     page: 21
     listed_on: 226
     section: 그림출처
@@ -221,6 +238,7 @@ references:
     expect_block: true
 
   - id: fig-034-kofac-textbook
+    audience: record
     page: 34
     listed_on: 226
     section: 그림출처
@@ -231,6 +249,7 @@ references:
       종이 교과서다. URL 이 없어 자동 점검 대상이 아니다.
 
   - id: fig-039-wikipedia-john-snow
+    audience: record
     page: 39
     listed_on: 226
     section: 그림출처
@@ -240,6 +259,7 @@ references:
     expect_block: true
 
   - id: fig-057-ahracho
+    audience: record
     page: 57
     listed_on: 226
     section: 그림출처
@@ -248,6 +268,7 @@ references:
     risk: medium
 
   - id: fig-064-wikipedia-sigmoid
+    audience: record
     page: 64
     listed_on: 226
     section: 그림출처
@@ -259,16 +280,22 @@ references:
       주소에 한글이 그대로 들어 있다. 옮겨 적을 때 깨지기 쉽다.
 
   - id: fig-066-tensorflowkorea-gitbooks
+    audience: record
     page: 66
     listed_on: 226
     section: 그림출처
-    title: "텐서플로 한국어 문서 (GitBook)"
-    url: https://tensorflowkorea.gitbooks.io/tensorflow-/content/g3doc/tutorials/mnist/beginners/
+    title: "텐서플로 한국어 문서 — MNIST 초급 (GitBook)"
+    url: https://tensorflowkorea.gitbooks.io/tensorflow-kr/content/g3doc/tutorials/mnist/beginners/
+    printed_wrong: https://tensorflowkorea.gitbooks.io/tensorflow-/content/g3doc/tutorials/mnist/beginners/
     risk: high
     note: >-
-      GitBook 구 서비스. 언제든 종료될 수 있다.
+      2026-09-09 링크 점검이 404 를 잡아냈다. 서비스가 죽은 것이 아니라 인쇄가
+      틀렸다 — 경로가 tensorflow-kr 인데 kr 두 글자가 빠져 tensorflow- 로
+      인쇄돼 있다. 고친 주소는 정상 동작한다(「MNIST 초급」). 3쇄 수정 대상.
+      다만 GitBook 구 서비스라 언제든 종료될 수 있다는 위험은 그대로다.
 
   - id: fig-068-nvidia-korea
+    audience: record
     page: 68
     listed_on: 226
     section: 그림출처
@@ -277,6 +304,7 @@ references:
     risk: medium
 
   - id: fig-070-wikipedia-mnist
+    audience: record
     page: 70
     listed_on: 226
     section: 그림출처
@@ -286,6 +314,7 @@ references:
     expect_block: true
 
   - id: fig-072-google-images
+    audience: record
     page: 72
     listed_on: 226
     section: 그림출처
@@ -293,6 +322,7 @@ references:
     url: https://wikidocs.net/60324
     printed_wrong: https://images.app.goo.gl/zF9gTSRcyhg4BesU6
     risk: low
+    expect_block: true          # 위키독스·박물관도 자동화 요청을 막는다
     note: >-
       1·2쇄는 구글 이미지 검색 결과 주소를 출처로 실었다. 검색 결과는 출처가
       아니고 언제든 달라진다. 3쇄에서 원 출처인 이 주소로 교체한다 —
@@ -300,6 +330,7 @@ references:
       wikidocs.net/images/page/60324/mnist_SVbcYYG.png 다.
 
   - id: fig-078-wikipedia-perceptron
+    audience: record
     page: 78
     listed_on: 226
     section: 그림출처
@@ -309,6 +340,7 @@ references:
     expect_block: true
 
   - id: fig-078-isl-stanford-pdf
+    audience: record
     page: 78
     listed_on: 226
     section: 그림출처
@@ -317,6 +349,7 @@ references:
     risk: low
 
   - id: fig-090-cs231n-convnet
+    audience: record
     page: 90
     listed_on: 226
     section: 그림출처
@@ -325,6 +358,7 @@ references:
     risk: low
 
   - id: fig-091-asimov-institute
+    audience: record
     page: 91
     listed_on: 226
     section: 그림출처
@@ -337,6 +371,7 @@ references:
       3쇄에서 교체 권장.
 
   - id: fig-093-computing-or-kr
+    audience: record
     page: 93
     listed_on: 227
     section: 그림출처
@@ -346,6 +381,7 @@ references:
     expect_block: true
 
   - id: fig-102-cs231n-convnet
+    audience: record
     page: 102
     listed_on: 227
     section: 그림출처
@@ -354,6 +390,7 @@ references:
     risk: low
 
   - id: fig-103-cs231n-convnet
+    audience: record
     page: 103
     listed_on: 227
     section: 그림출처
@@ -362,6 +399,7 @@ references:
     risk: low
 
   - id: fig-120-andreaprovino
+    audience: record
     page: 120
     listed_on: 227
     section: 그림출처
@@ -377,6 +415,7 @@ references:
   #   자동 점검으로는 죽은 것을 알 수 없다. 분기 점검에서 재생해 볼 것.
 
   - id: qr-123-frozen-lake
+    audience: reader
     page: 123
     listed_on: 123
     section: QR
@@ -390,6 +429,7 @@ references:
       인쇄돼 있지 않아 이곳이 유일한 글자 기록이다.
 
   - id: qr-123-atari
+    audience: reader
     page: 123
     listed_on: 123
     section: QR
@@ -403,6 +443,7 @@ references:
       인쇄돼 있지 않아 이곳이 유일한 글자 기록이다.
 
   - id: qr-123-self-driving
+    audience: reader
     page: 123
     listed_on: 123
     section: QR
@@ -416,6 +457,7 @@ references:
       &feature=youtu.be 가 붙어 있으나 없어도 같은 영상이다.
 
   - id: qr-123-robot-walking
+    audience: reader
     page: 123
     listed_on: 123
     section: QR
@@ -429,6 +471,7 @@ references:
       인쇄돼 있지 않아 이곳이 유일한 글자 기록이다.
 
   - id: fig-124-pcmag
+    audience: record
     page: 124
     listed_on: 227
     section: 그림출처
@@ -438,6 +481,7 @@ references:
     expect_block: true
 
   - id: fig-125-youtube
+    audience: reader
     page: 125
     listed_on: 227
     section: 그림출처
@@ -449,6 +493,7 @@ references:
       영상이 삭제·비공개되어도 페이지는 200 을 반환한다. 재생 가능 여부는 사람이 직접 확인해야 한다.
 
   - id: fig-126-waymo
+    audience: record
     page: 126
     listed_on: 227
     section: 그림출처
@@ -457,6 +502,7 @@ references:
     risk: low
 
   - id: fig-127-wikipedia-spirit
+    audience: record
     page: 127
     listed_on: 227
     section: 그림출처
@@ -466,14 +512,17 @@ references:
     expect_block: true
 
   - id: fig-142-wikidocs-33793
+    audience: record
     page: 142
     listed_on: 227
     section: 그림출처
     title: "위키독스 33793"
     url: https://wikidocs.net/33793
     risk: low
+    expect_block: true          # 위키독스·박물관도 자동화 요청을 막는다
 
   - id: fig-144-embedding-projector
+    audience: reader
     page: 144
     listed_on: 227
     section: 그림출처
@@ -483,30 +532,37 @@ references:
     risk: low
 
   - id: fig-159-wikidocs-24996
+    audience: record
     page: 159
     listed_on: 227
     section: 그림출처
     title: "위키독스 24996"
     url: https://wikidocs.net/24996
     risk: low
+    expect_block: true          # 위키독스·박물관도 자동화 요청을 막는다
 
   - id: fig-161-wikidocs-24996
+    audience: record
     page: 161
     listed_on: 227
     section: 그림출처
     title: "위키독스 24996"
     url: https://wikidocs.net/24996
     risk: low
+    expect_block: true          # 위키독스·박물관도 자동화 요청을 막는다
 
   - id: fig-166-wikidocs-22893
+    audience: record
     page: 166
     listed_on: 227
     section: 그림출처
     title: "위키독스 22893"
     url: https://wikidocs.net/22893
     risk: low
+    expect_block: true          # 위키독스·박물관도 자동화 요청을 막는다
 
   - id: fig-168-attention-is-all-you-need
+    audience: record
     page: 168
     listed_on: 227
     section: 그림출처
@@ -517,30 +573,37 @@ references:
       논문 표기만 있고 URL 은 인쇄돼 있지 않다.
 
   - id: fig-170-wikidocs-31379
+    audience: record
     page: 170
     listed_on: 227
     section: 그림출처
     title: "위키독스 31379"
     url: https://wikidocs.net/31379
     risk: low
+    expect_block: true          # 위키독스·박물관도 자동화 요청을 막는다
 
   - id: fig-171-wikidocs-31379
+    audience: record
     page: 171
     listed_on: 227
     section: 그림출처
     title: "위키독스 31379"
     url: https://wikidocs.net/31379
     risk: low
+    expect_block: true          # 위키독스·박물관도 자동화 요청을 막는다
 
   - id: fig-171-wikidocs-31379-2
+    audience: record
     page: 171
     listed_on: 227
     section: 그림출처
     title: "위키독스 31379"
     url: https://wikidocs.net/31379
     risk: low
+    expect_block: true          # 위키독스·박물관도 자동화 요청을 막는다
 
   - id: fig-173-naver-cdn
+    audience: record
     page: 173
     listed_on: 227
     section: 그림출처
@@ -552,6 +615,7 @@ references:
       임시 파라미터가 붙은 CDN 주소. 만료 가능.
 
   - id: fig-193-alt-movie-posters
+    audience: record
     page: 193
     listed_on: 227
     section: 그림출처
@@ -560,6 +624,7 @@ references:
     risk: medium
 
   - id: fig-209-amazon-cdn
+    audience: record
     page: 209
     listed_on: 227
     section: 그림출처
