@@ -1,10 +1,10 @@
 {
   "checked": "2026-09-09",
   "counts": {
-    "ok": 18,
-    "check": 10,
-    "dead": 1,
-    "unjudged": 19,
+    "ok": 19,
+    "check": 0,
+    "dead": 0,
+    "unjudged": 29,
     "unresolved": 3
   },
   "links": [
@@ -134,9 +134,9 @@
       "resolved": "https://wikidocs.net/profile/info/book/6876",
       "risk": "low",
       "note": null,
-      "state": "check",
-      "label": "확인 필요",
-      "reason": "HTTP 403 — 자동화 요청이 차단된 것일 수 있습니다. 사람이 확인해 주세요."
+      "state": "unjudged",
+      "label": "자동 판정 불가",
+      "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 403). 사람이 직접 확인합니다."
     },
     {
       "id": "ref-book-hunkim",
@@ -186,9 +186,9 @@
       "resolved": "https://americanhistory.si.edu/",
       "risk": "medium",
       "note": "도메인만 인쇄돼 있어 특정 페이지를 가리키지 않는다.",
-      "state": "check",
-      "label": "확인 필요",
-      "reason": "HTTP 403 — 자동화 요청이 차단된 것일 수 있습니다. 사람이 확인해 주세요."
+      "state": "unjudged",
+      "label": "자동 판정 불가",
+      "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 403). 사람이 직접 확인합니다."
     },
     {
       "id": "fig-021-wikipedia-expert-system",
@@ -259,14 +259,14 @@
       "id": "fig-066-tensorflowkorea-gitbooks",
       "group": "references",
       "page": 66,
-      "title": "텐서플로 한국어 문서 (GitBook)",
-      "url": "https://tensorflowkorea.gitbooks.io/tensorflow-/content/g3doc/tutorials/mnist/beginners/",
-      "resolved": "https://tensorflowkorea.gitbooks.io/tensorflow-/content/g3doc/tutorials/mnist/beginners/",
+      "title": "텐서플로 한국어 문서 — MNIST 초급 (GitBook)",
+      "url": "https://tensorflowkorea.gitbooks.io/tensorflow-kr/content/g3doc/tutorials/mnist/beginners/",
+      "resolved": "https://tensorflowkorea.gitbooks.io/tensorflow-kr/content/g3doc/tutorials/mnist/beginners/",
       "risk": "high",
-      "note": "GitBook 구 서비스. 언제든 종료될 수 있다.",
-      "state": "dead",
-      "label": "소실",
-      "reason": "HTTP 404 — 페이지가 사라졌습니다."
+      "note": "2026-09-09 링크 점검이 404 를 잡아냈다. 서비스가 죽은 것이 아니라 인쇄가 틀렸다 — 경로가 tensorflow-kr 인데 kr 두 글자가 빠져 tensorflow- 로 인쇄돼 있다. 고친 주소는 정상 동작한다(「MNIST 초급」). 3쇄 수정 대상. 다만 GitBook 구 서비스라 언제든 종료될 수 있다는 위험은 그대로다.",
+      "state": "ok",
+      "label": "정상",
+      "reason": "정상"
     },
     {
       "id": "fig-068-nvidia-korea",
@@ -303,9 +303,9 @@
       "resolved": "https://wikidocs.net/60324",
       "risk": "low",
       "note": "1·2쇄는 구글 이미지 검색 결과 주소를 출처로 실었다. 검색 결과는 출처가 아니고 언제든 달라진다. 3쇄에서 원 출처인 이 주소로 교체한다 — 『딥 러닝 파이토치 교과서』 05-04 절이며, 책이 쓴 이미지 파일은 wikidocs.net/images/page/60324/mnist_SVbcYYG.png 다.",
-      "state": "check",
-      "label": "확인 필요",
-      "reason": "HTTP 403 — 자동화 요청이 차단된 것일 수 있습니다. 사람이 확인해 주세요."
+      "state": "unjudged",
+      "label": "자동 판정 불가",
+      "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 403). 사람이 직접 확인합니다."
     },
     {
       "id": "fig-078-wikipedia-perceptron",
@@ -524,9 +524,9 @@
       "resolved": "https://wikidocs.net/33793",
       "risk": "low",
       "note": null,
-      "state": "check",
-      "label": "확인 필요",
-      "reason": "HTTP 403 — 자동화 요청이 차단된 것일 수 있습니다. 사람이 확인해 주세요."
+      "state": "unjudged",
+      "label": "자동 판정 불가",
+      "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 403). 사람이 직접 확인합니다."
     },
     {
       "id": "fig-144-embedding-projector",
@@ -550,9 +550,9 @@
       "resolved": "https://wikidocs.net/24996",
       "risk": "low",
       "note": null,
-      "state": "check",
-      "label": "확인 필요",
-      "reason": "HTTP 403 — 자동화 요청이 차단된 것일 수 있습니다. 사람이 확인해 주세요."
+      "state": "unjudged",
+      "label": "자동 판정 불가",
+      "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 403). 사람이 직접 확인합니다."
     },
     {
       "id": "fig-161-wikidocs-24996",
@@ -563,9 +563,9 @@
       "resolved": "https://wikidocs.net/24996",
       "risk": "low",
       "note": null,
-      "state": "check",
-      "label": "확인 필요",
-      "reason": "HTTP 403 — 자동화 요청이 차단된 것일 수 있습니다. 사람이 확인해 주세요."
+      "state": "unjudged",
+      "label": "자동 판정 불가",
+      "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 403). 사람이 직접 확인합니다."
     },
     {
       "id": "fig-166-wikidocs-22893",
@@ -576,9 +576,9 @@
       "resolved": "https://wikidocs.net/22893",
       "risk": "low",
       "note": null,
-      "state": "check",
-      "label": "확인 필요",
-      "reason": "HTTP 403 — 자동화 요청이 차단된 것일 수 있습니다. 사람이 확인해 주세요."
+      "state": "unjudged",
+      "label": "자동 판정 불가",
+      "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 403). 사람이 직접 확인합니다."
     },
     {
       "id": "fig-168-attention-is-all-you-need",
@@ -602,9 +602,9 @@
       "resolved": "https://wikidocs.net/31379",
       "risk": "low",
       "note": null,
-      "state": "check",
-      "label": "확인 필요",
-      "reason": "HTTP 403 — 자동화 요청이 차단된 것일 수 있습니다. 사람이 확인해 주세요."
+      "state": "unjudged",
+      "label": "자동 판정 불가",
+      "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 403). 사람이 직접 확인합니다."
     },
     {
       "id": "fig-171-wikidocs-31379",
@@ -615,9 +615,9 @@
       "resolved": "https://wikidocs.net/31379",
       "risk": "low",
       "note": null,
-      "state": "check",
-      "label": "확인 필요",
-      "reason": "HTTP 403 — 자동화 요청이 차단된 것일 수 있습니다. 사람이 확인해 주세요."
+      "state": "unjudged",
+      "label": "자동 판정 불가",
+      "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 403). 사람이 직접 확인합니다."
     },
     {
       "id": "fig-171-wikidocs-31379-2",
@@ -628,9 +628,9 @@
       "resolved": "https://wikidocs.net/31379",
       "risk": "low",
       "note": null,
-      "state": "check",
-      "label": "확인 필요",
-      "reason": "HTTP 403 — 자동화 요청이 차단된 것일 수 있습니다. 사람이 확인해 주세요."
+      "state": "unjudged",
+      "label": "자동 판정 불가",
+      "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 403). 사람이 직접 확인합니다."
     },
     {
       "id": "fig-173-naver-cdn",
