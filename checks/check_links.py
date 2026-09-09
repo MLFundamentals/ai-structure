@@ -134,6 +134,9 @@ def main() -> int:
                 # 사람이 브라우저에서 확인해 적은 값이 자동 추적보다 믿을 만하다.
                 "resolved": entry.get("resolved") or (result or {}).get("final_url"),
                 "risk": entry.get("risk"),
+                # reader = 독자가 열려고 인쇄된 자료. record = 그림 출처 표기.
+                # 사이트는 reader 만 늘 보여주고, record 는 문제가 생겼을 때만 올린다.
+                "audience": entry.get("audience", "reader"),
                 "note": entry.get("note"),
                 "state": state,
                 "label": LABEL[state],
