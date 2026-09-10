@@ -20,7 +20,7 @@ meta:
   book: 인공지능 구조 원리 교과서
   edition: 1판 3쇄
   site: https://mlfundamentals.github.io/ai-structure/
-  updated: 2026-09-06
+  updated: 2026-09-10
 
 defaults:
   timeout: 20
@@ -34,10 +34,19 @@ defaults:
 # 요청을 차단하므로 GitHub Actions 러너에서는 정상 여부를 판정할
 # 수 없다. 그래서 전부 expect_block + manual 로 둔다.
 #
-# ⚠ 리다이렉트 최종 주소를 반드시 채울 것. 단축 서비스가 종료되면
-#   이 기록이 실습 자료에 접근할 유일한 경로다. 본문에는 단축
-#   주소만 인쇄돼 있다. 사람이 브라우저에서 열어 주소창을 복사해
-#   resolved 에 적는다.
+# ⚠ resolved 는 '기록'이지 '점검 대상'이 아니다  (2026-09-10 확정)
+#   2026-09-10 에 7건 전부 채웠다. 단축 서비스가 종료되면 이 기록이
+#   실습 자료에 닿는 유일한 경로다 — 본문에는 단축 주소만 인쇄돼 있다.
+#
+#   그러나 이 값을 자동 점검에 넣지 말 것. Colab 의 /drive/<ID> 주소는
+#   노트북이 삭제되거나 공유가 끊겨도 로그인 화면 HTML 과 함께 200 을
+#   반환한다(2026-09-10 실측). 점검 대상에 넣으면 영원히 초록 불이
+#   켜지고, 그것은 66쪽 때보다 나쁘다 — 그때는 몰랐지만 이번엔
+#   '점검하고 있다'고 착각하게 된다.
+#   실제 확인은 분기 실환경 점검 1번 항목에서 사람이 한다.
+#
+#   예외는 188쪽뿐이다. resolved 가 GIF 파일 직접 주소라 죽으면 404 가
+#   뜬다. 다만 이 항목도 expect_block 때문에 지금은 요청되지 않는다.
 
 practice:
   - id: practice-060
@@ -45,7 +54,7 @@ practice:
     page: 60
     title: 사괏값 예측 실습
     url: https://m.site.naver.com/1ci9E
-    resolved: null          # TODO: 리다이렉트 최종 주소
+    resolved: https://colab.research.google.com/drive/1QyheyTYWv8iO4YtfEzUq34Ka4tHhrrAm?usp=sharing   # 2026-09-10 기록. 점검 대상 아님 — 위 주석 참조
     kind: notebook
     expect_block: true
     manual: quarterly
@@ -60,7 +69,7 @@ practice:
     page: 73
     title: MNIST — 기초
     url: https://m.site.naver.com/1ciUb
-    resolved: null          # TODO
+    resolved: https://colab.research.google.com/drive/1nUoZ7bDXmc6264ZyuS4isDomk2Z-ltXz?usp=sharing   # 2026-09-10 기록. 점검 대상 아님 — 위 주석 참조
     kind: notebook
     expect_block: true
     manual: quarterly
@@ -71,7 +80,7 @@ practice:
     page: 85
     title: 퍼셉트론 — XOR
     url: https://m.site.naver.com/1clOy
-    resolved: null          # TODO
+    resolved: https://colab.research.google.com/drive/1gvHbBjscSKJxwzqvesIi-uAI005yH5mb?usp=sharing   # 2026-09-10 기록. 점검 대상 아님 — 위 주석 참조
     kind: notebook
     expect_block: true
     manual: quarterly
@@ -89,7 +98,7 @@ practice:
     printed_wrong: https://m.site.naver.com/1clOy   # 글자로 잘못 인쇄된 주소
     printed_as: text+qr
     qr_ok: true               # QR 은 처음부터 1coHy 로 올발랐다 — 글자만 틀렸다
-    resolved: null          # TODO: 리다이렉트 최종 주소
+    resolved: https://colab.research.google.com/drive/1mZtzXUYm6TQlM2lRrFtaDIlwucCf4ekv?usp=sharing   # 2026-09-10 기록. 점검 대상 아님 — 위 주석 참조
     kind: notebook
     expect_block: true
     manual: quarterly
@@ -103,7 +112,7 @@ practice:
     page: 108
     title: RNN 실습
     url: https://m.site.naver.com/1coJ3
-    resolved: null          # TODO
+    resolved: https://colab.research.google.com/drive/1PqRM7Ky_AgfpjTDBvZkc1RjtHWh2RAqU?usp=sharing   # 2026-09-10 기록. 점검 대상 아님 — 위 주석 참조
     kind: notebook
     expect_block: true
     manual: quarterly
@@ -114,7 +123,7 @@ practice:
     page: 188
     title: 대규모 언어 모델의 이미지
     url: https://m.site.naver.com/19GPB
-    resolved: null          # TODO
+    resolved: https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/1_Welcome_GenerativeMeena_CL_V02_150521_v2_720_25fps.gif   # 2026-09-10 기록. 점검 대상 아님 — 위 주석 참조
     kind: gif               # 실행 점검 대상 아님
     expect_block: true
     manual: quarterly
@@ -125,7 +134,7 @@ practice:
     page: 220
     title: LLM 사용 예제
     url: https://m.site.naver.com/1cF2e
-    resolved: null          # TODO
+    resolved: https://colab.research.google.com/drive/110j4D8S8V8v3EPljGueTvAaw1E0w-pR1?usp=sharing   # 2026-09-10 기록. 점검 대상 아님 — 위 주석 참조
     kind: notebook
     expect_block: true
     manual: quarterly
