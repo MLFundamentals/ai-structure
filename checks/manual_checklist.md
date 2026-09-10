@@ -16,18 +16,31 @@
 「열린다」와 「올바른 것이 열린다」는 다른 확인이다.
 
 브라우저에서 일곱 개를 열어 **무엇이 열리는지까지** 대조한다.
+주소창의 최종 주소가 아래 드라이브 ID 와 같은지 본다. 다르면 단축
+주소의 목적지가 바뀐 것이다.
 
-- [ ] `m.site.naver.com/1ci9E` → 60쪽 · `Linear_Regression.ipynb`
-- [ ] `m.site.naver.com/1ciUb` → 73쪽 · `MNIST_Softmax.ipynb`
-- [ ] `m.site.naver.com/1clOy` → 85쪽 · `XOR_perceptron.ipynb`
-- [ ] `m.site.naver.com/1coHy` → 103쪽 · `MNIST_CNN.ipynb`
-- [ ] `m.site.naver.com/1coJ3` → 108쪽 · `RNN.ipynb`
-- [ ] `m.site.naver.com/19GPB` → 188쪽 · GIF 그림
-- [ ] `m.site.naver.com/1cF2e` → 220쪽 · `LLM.ipynb`
+| | 인쇄된 단축 주소 | 열려야 하는 것 | 드라이브 ID 앞자리 |
+|---|---|---|---|
+| [ ] | `m.site.naver.com/1ci9E` | 60쪽 · `Linear_Regression.ipynb` | `1Qyhey…` |
+| [ ] | `m.site.naver.com/1ciUb` | 73쪽 · `MNIST_Softmax.ipynb` | `1nUoZ7…` |
+| [ ] | `m.site.naver.com/1clOy` | 85쪽 · `XOR_perceptron.ipynb` | `1gvHbB…` |
+| [ ] | `m.site.naver.com/1coHy` | 103쪽 · `MNIST_CNN.ipynb` | `1mZtzX…` |
+| [ ] | `m.site.naver.com/1coJ3` | 108쪽 · `RNN.ipynb` | `1PqRM7…` |
+| [ ] | `m.site.naver.com/19GPB` | 188쪽 · GIF 그림 | (storage.googleapis.com) |
+| [ ] | `m.site.naver.com/1cF2e` | 220쪽 · `LLM.ipynb` | `110j4D…` |
 
-여는 김에 주소창의 **최종 주소를 복사해 `links.yml` 의 `resolved` 에 적는다.**
-네이버 단축 서비스가 종료되면 그 기록이 자료에 닿는 유일한 경로다.
-본문에는 단축 주소만 인쇄돼 있다.
+전체 주소는 `links.yml` 의 `resolved` 에 적혀 있다(2026-09-10 기록).
+
+> **`resolved` 를 자동 점검에 넣지 말 것.** Colab 의 `/drive/<ID>` 주소는
+> 노트북이 삭제되거나 공유가 끊겨도 로그인 화면과 함께 200 을 반환한다.
+> 그래서 이 대조가 사람 몫으로 남아 있는 것이다. 초록 불을 만들기는
+> 쉽지만 그 초록 불은 거짓이 된다.
+
+- [ ] 열린 노트북의 **첫 셀 내용이 그 쪽의 실습이 맞는지** 본다.
+      '열린다'가 아니라 '올바른 것이 열린다'를 보는 자리다
+- [ ] 사이트의 '실습 열기' 는 단축 주소를 거치지 않고 최종 주소로
+      바로 간다. 목적지가 바뀌었다면 `index.html` 섹션 1의 링크와
+      `links.yml` 의 `resolved` 를 **둘 다** 고친다
 
 ## 2 · 독자의 자리에서 한 번 돌려 본다 — 30분
 
