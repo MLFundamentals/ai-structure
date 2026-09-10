@@ -42,9 +42,21 @@ jobs:
       - name: 의존성 설치
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements-notebooks.txt torch \
-                      --extra-index-url https://download.pytorch.org/whl/cpu
+          # ⚠ --extra-index-url 로는 CPU 판이 선택되지 않는다. pip 은 두 인덱스를
+          #   한 묶음으로 보고 더 높은 버전을 고르는데, 그게 PyPI 의 CUDA 판이다.
+          #   torch 를 먼저 --index-url 로 CPU 인덱스에서만 받아 설치한다.
+          #   그 다음 requirements 를 깔면 torch 가 이미 충족돼 다시 받지 않는다.
+          pip install torch --index-url https://download.pytorch.org/whl/cpu
+          pip install -r requirements-notebooks.txt
           pip install pyyaml nbconvert ipykernel
+
+          # CUDA 가 섞여 들어왔으면 여기서 요란하게 실패시킨다.
+          # 디스크가 터져서 죽는 것보다 원인이 분명하다.
+          if pip list 2>/dev/null | grep -qi '^nvidia-'; then
+            echo "::error::CUDA 패키지가 설치됐습니다. torch 가 CPU 인덱스가 아니라 PyPI 에서 왔습니다."
+            pip list | grep -i '^nvidia-'
+            exit 1
+          fi
 
       - name: 라이브러리 버전 기록
         run: |
