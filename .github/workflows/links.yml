@@ -36,8 +36,16 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/
-          git diff --staged --quiet || git commit -m "링크 점검 결과 갱신 ($(date +%F))"
-          git push
+          git diff --staged --quiet && exit 0
+          git commit -m "실행 점검 결과 갱신 ($(date +%F))"
+          # 실행이 10분 넘게 걸려, 그사이 사람이 push 하면 원격이 앞서 있다.
+          # 그때 밀어 넣지 말고 rebase 후 재시도한다.
+          for i in 1 2 3; do
+            git push && exit 0
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+          done
+          echo "::error::결과 커밋 실패 — 원격과 계속 어긋납니다."
+          exit 1
 
       - name: 소실된 링크가 있으면 실패 처리
         if: steps.check.outcome == 'failure'
