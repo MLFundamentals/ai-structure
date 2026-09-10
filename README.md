@@ -158,9 +158,9 @@ Colab은 기존 노트북이 깨지지 않도록 `TF_USE_LEGACY_KERAS=1` 같은 
 → `tf.GradientTape` + `optimizer.apply_gradients()`. 후자는 Keras 2에도
 있으므로 옛 환경에서도 그대로 동작한다.)
 
-라이브러리 버전은 고정하지 않는다. **노후화 감지가 이 점검의 목적이다.**
-GPU 빌드는 깔지 않는다 — `tensorflow-cpu`, torch 는 CPU 전용 인덱스에서
-이름으로 지목해 받는다.
+라이브러리 버전은 고정하지 않는다. 노후화 감지가 이 점검의 목적이다.
+GPU 빌드는 깔지 않는다 — tensorflow-cpu 를 쓰고, torch 는 --index-url 로 CPU 인덱스에서만 받는다.
+--extra-index-url 로는 안 된다. pip 은 두 인덱스를 한 묶음으로 보고 더 높은 버전을 고르는데, 그게 PyPI 의 CUDA 판이다. 2026-09-10 에 이것 때문에 3.3GB(그중 CUDA 2.3GB)를 받다가 실행 점검이 죽었다.
 
 ### 판정 원칙 — 기본은 "오류 없이 끝까지 실행됐는가" 하나
 
