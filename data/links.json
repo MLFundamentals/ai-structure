@@ -1,8 +1,8 @@
 {
-  "checked": "2026-09-10",
+  "checked": "2026-09-13",
   "counts": {
-    "ok": 19,
-    "check": 0,
+    "ok": 18,
+    "check": 1,
     "dead": 0,
     "unjudged": 29,
     "unresolved": 3
@@ -284,9 +284,9 @@
       "risk": "high",
       "audience": "record",
       "note": "2026-09-09 링크 점검이 404 를 잡아냈다. 서비스가 죽은 것이 아니라 인쇄가 틀렸다 — 경로가 tensorflow-kr 인데 kr 두 글자가 빠져 tensorflow- 로 인쇄돼 있다. 고친 주소는 정상 동작한다(「MNIST 초급」). 3쇄 수정 대상. 다만 GitBook 구 서비스라 언제든 종료될 수 있다는 위험은 그대로다.",
-      "state": "ok",
-      "label": "정상",
-      "reason": "정상"
+      "state": "check",
+      "label": "확인 필요",
+      "reason": "HTTP 401"
     },
     {
       "id": "fig-068-nvidia-korea",
