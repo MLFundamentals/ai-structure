@@ -1,8 +1,8 @@
 {
-  "checked": "2026-09-20",
+  "checked": "2026-09-27",
   "counts": {
-    "ok": 19,
-    "check": 0,
+    "ok": 18,
+    "check": 1,
     "dead": 0,
     "unjudged": 29,
     "unresolved": 3
@@ -434,13 +434,13 @@
       "page": 120,
       "title": "andreaprovino.it — GAN",
       "url": "https://www.andreaprovino.it/gan-come-funziona-una-rete-generativa-avversaria",
-      "resolved": "https://www.andreaprovino.it/gan-come-funziona-una-rete-generativa-avversaria",
+      "resolved": null,
       "risk": "medium",
       "audience": "record",
       "note": null,
-      "state": "ok",
-      "label": "정상",
-      "reason": "정상"
+      "state": "check",
+      "label": "확인 필요",
+      "reason": "연결하지 못했습니다 — ConnectTimeout: HTTPSConnectionPool(host='www.andreaprovino.it', port=443): Max retries exceeded with url: /gan-come-funziona-una-rete-generativa-avversaria (Caused by ConnectTimeoutError(<HTTPSConnection(host='www.andreaprovino.it', port=443) at 0x7f661b5ae990>, 'Connection to www.andreaprovino.it timed out. (connect timeout=20)'))"
     },
     {
       "id": "qr-123-frozen-lake",
