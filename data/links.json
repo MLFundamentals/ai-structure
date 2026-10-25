@@ -1,8 +1,8 @@
 {
-  "checked": "2026-10-18",
+  "checked": "2026-10-25",
   "counts": {
-    "ok": 19,
-    "check": 0,
+    "ok": 18,
+    "check": 1,
     "dead": 0,
     "unjudged": 29,
     "unresolved": 3
@@ -126,13 +126,13 @@
       "page": null,
       "title": "Stanford CS231n: Deep Learning for Computer Vision",
       "url": "https://cs231n.stanford.edu/",
-      "resolved": "https://cs231n.stanford.edu/",
+      "resolved": null,
       "risk": "low",
       "audience": "reader",
       "note": "3쇄에서 인쇄 표기가 cs231n.stanford.edu 로 짧아진다. 나머지 참고문헌 넷은 https:// 만 떼는 것이라 접속 주소는 그대로다.",
       "state": "unjudged",
       "label": "자동 판정 불가",
-      "reason": "자동화 요청을 차단하는 사이트입니다 (HTTP 200). 사람이 직접 확인합니다."
+      "reason": "자동화 요청을 차단하는 사이트입니다 (ConnectTimeout: HTTPSConnectionPool(host='cs231n.stanford.edu', port=443): Max retries exceeded with url: / (Caused by ConnectTimeoutError(<HTTPSConnection(host='cs231n.stanford.edu', port=443) at 0x747f4d86b9e0>, 'Connection to cs231n.stanford.edu timed out. (connect timeout=20)'))). 사람이 직접 확인합니다."
     },
     {
       "id": "ref-book-wikidocs-nlp",
@@ -284,9 +284,9 @@
       "risk": "high",
       "audience": "record",
       "note": "2026-09-09 링크 점검이 404 를 잡아냈다. 서비스가 죽은 것이 아니라 인쇄가 틀렸다 — 경로가 tensorflow-kr 인데 kr 두 글자가 빠져 tensorflow- 로 인쇄돼 있다. 고친 주소는 정상 동작한다(「MNIST 초급」). 3쇄 수정 대상. 다만 GitBook 구 서비스라 언제든 종료될 수 있다는 위험은 그대로다.",
-      "state": "ok",
-      "label": "정상",
-      "reason": "정상"
+      "state": "check",
+      "label": "확인 필요",
+      "reason": "HTTP 401"
     },
     {
       "id": "fig-068-nvidia-korea",
